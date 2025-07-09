@@ -29,7 +29,7 @@ public:
     // IFilterFactory interface implementation
     std::unique_ptr<interfaces::IFilter> create(
         common::FilterType filter_type,
-        const common::AlgorithmConfig& config = {}) override;
+        const common::AlgorithmConfig& config = {}) const override;
 
     std::unique_ptr<interfaces::IIMMFilter> createIMM(
         const common::AlgorithmConfig& config = {}) override;

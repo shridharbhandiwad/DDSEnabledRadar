@@ -11,7 +11,7 @@ FilterFactory::FilterFactory() = default;
 
 std::unique_ptr<interfaces::IFilter> FilterFactory::create(
     common::FilterType filter_type,
-    const common::AlgorithmConfig& config) {
+    const common::AlgorithmConfig& config) const {
     
     std::unique_ptr<interfaces::IFilter> filter;
     
@@ -269,32 +269,24 @@ interfaces::MotionModelParameters FilterFactory::getDefaultMotionModelParameters
     switch (model_type) {
         case common::MotionModel::CONSTANT_VELOCITY:
             params.process_noise_std = 1.0;
-            params.position_uncertainty = 10.0;
-            params.velocity_uncertainty = 5.0;
-            params.acceleration_uncertainty = 0.0;  // Not used in CV
+            params.acceleration_std = 0.0;  // Not used in CV
             break;
             
         case common::MotionModel::CONSTANT_ACCELERATION:
             params.process_noise_std = 2.0;
-            params.position_uncertainty = 10.0;
-            params.velocity_uncertainty = 5.0;
-            params.acceleration_uncertainty = 2.0;
+            params.acceleration_std = 2.0;
             break;
             
-        case common::MotionModel::CONSTANT_TURN_RATE:
+        case common::MotionModel::COORDINATED_TURN_RATE:
             params.process_noise_std = 1.5;
-            params.position_uncertainty = 10.0;
-            params.velocity_uncertainty = 5.0;
-            params.acceleration_uncertainty = 1.0;
-            params.turn_rate_uncertainty = 0.1;  // rad/s
+            params.acceleration_std = 1.0;
+            params.turn_rate_std = 0.1;  // rad/s
             break;
             
         default:
             // Default to CV parameters
             params.process_noise_std = 1.0;
-            params.position_uncertainty = 10.0;
-            params.velocity_uncertainty = 5.0;
-            params.acceleration_uncertainty = 0.0;
+            params.acceleration_std = 0.0;
             break;
     }
     

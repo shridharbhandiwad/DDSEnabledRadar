@@ -276,7 +276,7 @@ public:
      */
     virtual std::unique_ptr<IFilter> create(
         common::FilterType filter_type,
-        const common::AlgorithmConfig& config = {}) = 0;
+        const common::AlgorithmConfig& config = {}) const = 0;
 
     /**
      * @brief Create an IMM filter instance
