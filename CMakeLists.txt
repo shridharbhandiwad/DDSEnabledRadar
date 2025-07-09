@@ -16,11 +16,32 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         -Wall -Wextra -Wpedantic -Werror
         -Wno-unused-parameter
         -fPIC
-        $<$<CONFIG:Release>:-O3 -DNDEBUG -march=native>
-        $<$<CONFIG:Debug>:-O0 -g -fsanitize=address -fsanitize=undefined>
     )
+    
+    # Configuration-specific flags
+    add_compile_options(
+        $<$<CONFIG:Release>:-O3>
+        $<$<CONFIG:Release>:-DNDEBUG>
+        $<$<CONFIG:Release>:-march=native>
+        $<$<CONFIG:Debug>:-O0>
+        $<$<CONFIG:Debug>:-g>
+    )
+    
+    # Debug sanitizers (only if supported)
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-        add_link_options(-fsanitize=address -fsanitize=undefined)
+        include(CheckCXXCompilerFlag)
+        check_cxx_compiler_flag("-fsanitize=address" HAS_ASAN)
+        check_cxx_compiler_flag("-fsanitize=undefined" HAS_UBSAN)
+        
+        if(HAS_ASAN)
+            add_compile_options(-fsanitize=address)
+            add_link_options(-fsanitize=address)
+        endif()
+        
+        if(HAS_UBSAN)
+            add_compile_options(-fsanitize=undefined)
+            add_link_options(-fsanitize=undefined)
+        endif()
     endif()
 endif()
 

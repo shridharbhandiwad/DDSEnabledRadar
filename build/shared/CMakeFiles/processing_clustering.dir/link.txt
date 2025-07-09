@@ -1,0 +1,2 @@
+/usr/bin/ar qc libprocessing_clustering.a CMakeFiles/processing_clustering.dir/processing/clustering/src/clustering_factory.cpp.o CMakeFiles/processing_clustering.dir/processing/clustering/src/dbscan.cpp.o CMakeFiles/processing_clustering.dir/processing/clustering/src/hierarchical_clustering.cpp.o CMakeFiles/processing_clustering.dir/processing/clustering/src/kmeans.cpp.o
+/usr/bin/ranlib libprocessing_clustering.a
