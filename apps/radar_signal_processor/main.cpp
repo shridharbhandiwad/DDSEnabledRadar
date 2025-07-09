@@ -229,7 +229,7 @@ private:
         
         // Calculate CPU and memory usage (simplified)
         performance_metrics_.cpu_usage = 45.0; // TODO: Implement actual CPU monitoring
-        performance_metrics_.memory_usage_mb = 128.0; // TODO: Implement actual memory monitoring
+        performance_metrics_.memory_usage = 128.0 * 1024 * 1024; // 128MB in bytes: TODO: Implement actual memory monitoring
     }
 
     void reportStatus() {
@@ -237,7 +237,7 @@ private:
             "Processing time: " + std::to_string(performance_metrics_.processing_time_ms) + " ms, " +
             "Detections: " + std::to_string(performance_metrics_.total_detections) + ", " +
             "CPU: " + std::to_string(performance_metrics_.cpu_usage) + "%, " +
-            "Memory: " + std::to_string(performance_metrics_.memory_usage_mb) + " MB");
+            "Memory: " + std::to_string(performance_metrics_.memory_usage / (1024.0 * 1024.0)) + " MB");
     }
 
     void reloadConfiguration() {

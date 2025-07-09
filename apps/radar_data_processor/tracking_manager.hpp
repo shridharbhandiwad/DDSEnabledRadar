@@ -98,7 +98,7 @@ private:
     
     // Configuration
     TrackingManagerConfig config_;
-    std::mutex config_mutex_;
+    mutable std::mutex config_mutex_;
     
     // State management
     std::atomic<bool> running_{false};

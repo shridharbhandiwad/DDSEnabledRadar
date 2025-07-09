@@ -71,7 +71,7 @@ private:
     
     // Configuration
     DetectionProcessorConfig config_;
-    std::mutex config_mutex_;
+    mutable std::mutex config_mutex_;
     
     // State management
     std::atomic<bool> running_{false};
@@ -81,7 +81,7 @@ private:
     std::queue<common::Detection> input_queue_;
     std::queue<common::Detection> output_queue_;
     std::mutex input_queue_mutex_;
-    std::mutex output_queue_mutex_;
+    mutable std::mutex output_queue_mutex_;
     
     // Processing threads
     std::thread processing_thread_;
