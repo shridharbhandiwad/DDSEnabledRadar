@@ -84,7 +84,7 @@ private:
     
     // Configuration
     DataProcessorConfig config_;
-    std::mutex config_mutex_;
+    mutable std::mutex config_mutex_;
     
     // State management
     std::atomic<bool> running_{false};
@@ -98,7 +98,7 @@ private:
     std::queue<common::Detection> input_queue_;
     std::queue<common::DetectionCluster> cluster_queue_;
     std::queue<common::Association> association_queue_;
-    std::mutex input_queue_mutex_;
+    mutable std::mutex input_queue_mutex_;
     std::mutex cluster_queue_mutex_;
     std::mutex association_queue_mutex_;
     

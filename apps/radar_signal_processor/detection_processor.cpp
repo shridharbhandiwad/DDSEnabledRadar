@@ -280,7 +280,7 @@ void DetectionProcessor::outputWorkerThread() {
             
             // Sleep until next output time or check interval
             auto sleep_time = std::min(
-                next_output_time - current_time,
+                std::chrono::duration_cast<std::chrono::milliseconds>(next_output_time - current_time),
                 std::chrono::milliseconds(50)
             );
             

@@ -323,7 +323,7 @@ private:
         
         // Calculate CPU and memory usage (simplified)
         performance_metrics_.cpu_usage = 65.0; // TODO: Implement actual CPU monitoring
-        performance_metrics_.memory_usage_mb = 256.0; // TODO: Implement actual memory monitoring
+        performance_metrics_.memory_usage = 256.0 * 1024 * 1024; // 256MB in bytes: TODO: Implement actual memory monitoring
         
         // Calculate detection rate
         static auto last_time = std::chrono::high_resolution_clock::now();
@@ -348,7 +348,7 @@ private:
             "Detection rate: " + std::to_string(performance_metrics_.detection_rate) + " Hz, " +
             "Total detections: " + std::to_string(total_detections_processed_) + ", " +
             "CPU: " + std::to_string(performance_metrics_.cpu_usage) + "%, " +
-            "Memory: " + std::to_string(performance_metrics_.memory_usage_mb) + " MB");
+            "Memory: " + std::to_string(performance_metrics_.memory_usage / (1024.0 * 1024.0)) + " MB");
     }
 
     void checkSystemHealth() {
@@ -362,7 +362,7 @@ private:
         }
         
         // Check memory usage
-        if (performance_metrics_.memory_usage_mb > 1024.0) {
+        if (performance_metrics_.memory_usage / (1024.0 * 1024.0) > 1024.0) {
             logger_->warn("Health Check", "Memory usage exceeding 1GB threshold");
             healthy = false;
         }

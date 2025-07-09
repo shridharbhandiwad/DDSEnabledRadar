@@ -3,9 +3,10 @@ radar_data_processor: \
   /lib/x86_64-linux-gnu/crti.o \
   /usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o \
   CMakeFiles/radar_data_processor.dir/radar_data_processor/main.cpp.o \
-  ../shared/libassociation.a \
-  ../shared/libclustering.a \
-  ../shared/libtracking.a \
+  CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.o \
+  CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.o \
+  ../shared/libconfiguration.a \
+  ../shared/liblogging.a \
   /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so \
   /lib/x86_64-linux-gnu/libm.so \
   /lib/x86_64-linux-gnu/libm.so \
@@ -42,11 +43,13 @@ radar_data_processor: \
 
 CMakeFiles/radar_data_processor.dir/radar_data_processor/main.cpp.o:
 
-../shared/libassociation.a:
+CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.o:
 
-../shared/libclustering.a:
+CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.o:
 
-../shared/libtracking.a:
+../shared/libconfiguration.a:
+
+../shared/liblogging.a:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so:
 
