@@ -28,7 +28,7 @@ CMAKE_AR:FILEPATH=/usr/bin/ar
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=Release
+CMAKE_BUILD_TYPE:STRING=
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
@@ -60,33 +60,6 @@ CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
 //Flags used by the CXX compiler during RELWITHDEBINFO builds.
 CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
-//C compiler
-CMAKE_C_COMPILER:FILEPATH=/usr/bin/cc
-
-//LLVM archiver
-CMAKE_C_COMPILER_AR:FILEPATH=/usr/bin/llvm-ar-20
-
-//`clang-scan-deps` dependency scanner
-CMAKE_C_COMPILER_CLANG_SCAN_DEPS:FILEPATH=/usr/bin/clang-scan-deps-20
-
-//Generate index for LLVM archive
-CMAKE_C_COMPILER_RANLIB:FILEPATH=/usr/bin/llvm-ranlib-20
-
-//Flags used by the C compiler during all build types.
-CMAKE_C_FLAGS:STRING=
-
-//Flags used by the C compiler during DEBUG builds.
-CMAKE_C_FLAGS_DEBUG:STRING=-g
-
-//Flags used by the C compiler during MINSIZEREL builds.
-CMAKE_C_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG
-
-//Flags used by the C compiler during RELEASE builds.
-CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
-
-//Flags used by the C compiler during RELWITHDEBINFO builds.
-CMAKE_C_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
-
 //Path to a program.
 CMAKE_DLLTOOL:FILEPATH=CMAKE_DLLTOOL-NOTFOUND
 
@@ -112,7 +85,7 @@ CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=
 CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=/workspace/build/CMakeFiles/pkgRedirects
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=/workspace/install
+CMAKE_INSTALL_PREFIX:PATH=/usr/local
 
 //Path to a program.
 CMAKE_LINKER:FILEPATH=/usr/bin/ld
@@ -256,12 +229,6 @@ CPACK_SOURCE_TZ:BOOL=ON
 //Enable to build ZIP source packages
 CPACK_SOURCE_ZIP:BOOL=OFF
 
-//No help, variable specified on the command line.
-DDS_SUPPORT:UNINITIALIZED=ON
-
-//No help, variable specified on the command line.
-ENABLE_DDS:UNINITIALIZED=ON
-
 //Enable profiling support
 ENABLE_PROFILING:BOOL=OFF
 
@@ -277,39 +244,6 @@ PKG_CONFIG_ARGN:STRING=
 //pkg-config executable
 PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
 
-//Path to a file.
-Protobuf_INCLUDE_DIR:PATH=/usr/include
-
-//Path to a library.
-Protobuf_LIBRARY_DEBUG:FILEPATH=/usr/lib/x86_64-linux-gnu/libprotobuf.so
-
-//Path to a library.
-Protobuf_LIBRARY_RELEASE:FILEPATH=/usr/lib/x86_64-linux-gnu/libprotobuf.so
-
-//Path to a library.
-Protobuf_LITE_LIBRARY_DEBUG:FILEPATH=/usr/lib/x86_64-linux-gnu/libprotobuf-lite.so
-
-//Path to a library.
-Protobuf_LITE_LIBRARY_RELEASE:FILEPATH=/usr/lib/x86_64-linux-gnu/libprotobuf-lite.so
-
-//The Google Protocol Buffers Compiler
-Protobuf_PROTOC_EXECUTABLE:FILEPATH=/usr/bin/protoc
-
-//Path to a library.
-Protobuf_PROTOC_LIBRARY_DEBUG:FILEPATH=Protobuf_PROTOC_LIBRARY_DEBUG-NOTFOUND
-
-//Path to a library.
-Protobuf_PROTOC_LIBRARY_RELEASE:FILEPATH=Protobuf_PROTOC_LIBRARY_RELEASE-NOTFOUND
-
-//Value Computed by CMake
-RadarProtocols_BINARY_DIR:STATIC=/workspace/build/protocols
-
-//Value Computed by CMake
-RadarProtocols_IS_TOP_LEVEL:STATIC=OFF
-
-//Value Computed by CMake
-RadarProtocols_SOURCE_DIR:STATIC=/workspace/protocols
-
 //Value Computed by CMake
 RadarTrackingSystem_BINARY_DIR:STATIC=/workspace/build
 
@@ -321,9 +255,6 @@ RadarTrackingSystem_SOURCE_DIR:STATIC=/workspace
 
 //The directory containing a CMake configuration file for fastrtps.
 fastrtps_DIR:PATH=fastrtps_DIR-NOTFOUND
-
-//The directory containing a CMake configuration file for fmt.
-fmt_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/fmt
 
 //The directory containing a CMake configuration file for spdlog.
 spdlog_DIR:PATH=spdlog_DIR-NOTFOUND
@@ -376,24 +307,6 @@ CMAKE_CXX_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
 CMAKE_CXX_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_CXX_FLAGS_RELWITHDEBINFO
 CMAKE_CXX_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_COMPILER
-CMAKE_C_COMPILER-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_COMPILER_AR
-CMAKE_C_COMPILER_AR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_COMPILER_CLANG_SCAN_DEPS
-CMAKE_C_COMPILER_CLANG_SCAN_DEPS-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_COMPILER_RANLIB
-CMAKE_C_COMPILER_RANLIB-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_FLAGS
-CMAKE_C_FLAGS-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_FLAGS_DEBUG
-CMAKE_C_FLAGS_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_FLAGS_MINSIZEREL
-CMAKE_C_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_FLAGS_RELEASE
-CMAKE_C_FLAGS_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_FLAGS_RELWITHDEBINFO
-CMAKE_C_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_DLLTOOL
 CMAKE_DLLTOOL-ADVANCED:INTERNAL=1
 //Executable file format
@@ -444,7 +357,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=5
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=4
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -503,34 +416,14 @@ CPACK_SOURCE_TZ-ADVANCED:INTERNAL=1
 CPACK_SOURCE_ZIP-ADVANCED:INTERNAL=1
 //Details about finding PkgConfig
 FIND_PACKAGE_MESSAGE_DETAILS_PkgConfig:INTERNAL=[/usr/bin/pkg-config][v1.8.1()]
-//Details about finding Protobuf
-FIND_PACKAGE_MESSAGE_DETAILS_Protobuf:INTERNAL=[/usr/lib/x86_64-linux-gnu/libprotobuf.so][/usr/include][vERROR.ERROR.ERROR()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //ADVANCED property for variable: PKG_CONFIG_ARGN
 PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Protobuf_INCLUDE_DIR
-Protobuf_INCLUDE_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Protobuf_LIBRARY_DEBUG
-Protobuf_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Protobuf_LIBRARY_RELEASE
-Protobuf_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Protobuf_LITE_LIBRARY_DEBUG
-Protobuf_LITE_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Protobuf_LITE_LIBRARY_RELEASE
-Protobuf_LITE_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Protobuf_PROTOC_EXECUTABLE
-Protobuf_PROTOC_EXECUTABLE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Protobuf_PROTOC_LIBRARY_DEBUG
-Protobuf_PROTOC_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Protobuf_PROTOC_LIBRARY_RELEASE
-Protobuf_PROTOC_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //linker supports push/pop state
 _CMAKE_CXX_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
-//linker supports push/pop state
-_CMAKE_C_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 //linker supports push/pop state
 _CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 

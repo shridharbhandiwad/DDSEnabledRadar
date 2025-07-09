@@ -33,7 +33,7 @@ constexpr DetectionId INVALID_DETECTION_ID = 0;
 constexpr SensorId INVALID_SENSOR_ID = 0;
 
 // Enumerations
-enum class TrackState {
+enum class TrackStatus {
     TENTATIVE,      // Initial detection, not confirmed
     CONFIRMED,      // Track confirmed and active
     COASTING,       // No detection, predicting based on model
@@ -59,6 +59,7 @@ enum class FilterType {
     KALMAN,         // Standard Kalman filter
     EXTENDED_KALMAN, // Extended Kalman filter
     UNSCENTED_KALMAN, // Unscented Kalman filter
+    CTR,            // Constant Turn Rate filter
     IMM,            // Interacting Multiple Model
     PARTICLE,       // Particle filter
     CUSTOM          // User-defined filter
@@ -163,6 +164,9 @@ struct TrackStateVector {
     void setAcceleration(const Vector3d& acc);
 };
 
+// Alias for interface compatibility
+using TrackState = TrackStateVector;
+
 // Track information
 struct Track {
     TrackId id{INVALID_TRACK_ID};
@@ -173,7 +177,7 @@ struct Track {
     TrackStateVector current_state;
     TrackStateVector predicted_state;
     
-    radar::common::TrackState state{radar::common::TrackState::TENTATIVE};
+    radar::common::TrackStatus status{radar::common::TrackStatus::TENTATIVE};
     
     uint32_t hit_count{0};     // Number of successful associations
     uint32_t miss_count{0};    // Number of missed detections

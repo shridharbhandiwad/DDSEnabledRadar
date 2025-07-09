@@ -30,26 +30,26 @@ add_definitions(-DSPDLOG_COMPILED_LIB)
 
 # Find packages
 find_package(PkgConfig REQUIRED)
-find_package(Protobuf REQUIRED)
+# find_package(Protobuf REQUIRED)
 find_package(Threads REQUIRED)
 
 # Find or build third-party dependencies
 find_package(Eigen3 QUIET)
 if(NOT Eigen3_FOUND)
-    message(STATUS "Eigen3 not found, using third_party version")
-    add_subdirectory(third_party/eigen)
+    message(STATUS "Eigen3 not found, disabling Eigen-dependent features")
+    # add_subdirectory(third_party/eigen)
 endif()
 
 find_package(yaml-cpp QUIET)
 if(NOT yaml-cpp_FOUND)
-    message(STATUS "yaml-cpp not found, using third_party version")
-    add_subdirectory(third_party/yaml-cpp)
+    message(STATUS "yaml-cpp not found, disabling yaml-dependent features")
+    # add_subdirectory(third_party/yaml-cpp)
 endif()
 
 find_package(spdlog QUIET)
 if(NOT spdlog_FOUND)
-    message(STATUS "spdlog not found, using third_party version")
-    add_subdirectory(third_party/spdlog)
+    message(STATUS "spdlog not found, disabling spdlog-dependent features")
+    # add_subdirectory(third_party/spdlog)
 endif()
 
 # Check for DDS
@@ -85,7 +85,7 @@ if(ENABLE_REAL_TIME)
 endif()
 
 # Protocol buffer generation
-add_subdirectory(protocols)
+# add_subdirectory(protocols)
 
 # Shared libraries
 add_subdirectory(shared)
