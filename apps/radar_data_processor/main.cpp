@@ -64,7 +64,7 @@ public:
 
             // Initialize data processor
             data_processor_ = std::make_unique<rdp::DataProcessor>();
-            auto dp_config = config_manager_->getDataProcessorConfig();
+            auto dp_config = buildDataProcessorConfig();
             if (!data_processor_->configure(dp_config)) {
                 logger_->error("Radar Data Processor", "Failed to configure data processor");
                 return false;
@@ -72,7 +72,7 @@ public:
 
             // Initialize tracking manager
             tracking_manager_ = std::make_unique<rdp::TrackingManager>();
-            auto tm_config = config_manager_->getTrackingManagerConfig();
+            auto tm_config = buildTrackingManagerConfig();
             if (!tracking_manager_->configure(tm_config)) {
                 logger_->error("Radar Data Processor", "Failed to configure tracking manager");
                 return false;
@@ -384,12 +384,12 @@ private:
             
             // Update component configurations
             if (data_processor_) {
-                auto dp_config = config_manager_->getDataProcessorConfig();
+                auto dp_config = buildDataProcessorConfig();
                 data_processor_->configure(dp_config);
             }
             
             if (tracking_manager_) {
-                auto tm_config = config_manager_->getTrackingManagerConfig();
+                auto tm_config = buildTrackingManagerConfig();
                 tracking_manager_->configure(tm_config);
             }
             
@@ -399,6 +399,54 @@ private:
             logger_->error("Radar Data Processor", 
                 "Failed to reload configuration: " + std::string(e.what()));
         }
+    }
+    
+    rdp::DataProcessorConfig buildDataProcessorConfig() {
+        rdp::DataProcessorConfig config;
+        config.clustering_algorithm = static_cast<common::ClusteringAlgorithm>(
+            config_manager_->getParameter<int>("data_processor", "clustering_algorithm", 0));
+        config.clustering_epsilon = config_manager_->getParameter<double>("data_processor", "clustering_epsilon", 5.0);
+        config.clustering_min_points = config_manager_->getParameter<int>("data_processor", "clustering_min_points", 3);
+        config.max_clusters = config_manager_->getParameter<int>("data_processor", "max_clusters", 100);
+        config.association_algorithm = static_cast<common::AssociationAlgorithm>(
+            config_manager_->getParameter<int>("data_processor", "association_algorithm", 1));
+        config.association_gate = config_manager_->getParameter<double>("data_processor", "association_gate", 9.0);
+        config.association_threshold = config_manager_->getParameter<double>("data_processor", "association_threshold", 0.8);
+        config.input_buffer_size = config_manager_->getParameter<int>("data_processor", "input_buffer_size", 10000);
+        config.processing_threads = config_manager_->getParameter<int>("data_processor", "processing_threads", 4);
+        config.processing_timeout_ms = config_manager_->getParameter<double>("data_processor", "processing_timeout_ms", 100.0);
+        config.output_rate_hz = config_manager_->getParameter<double>("data_processor", "output_rate_hz", 25.0);
+        config.max_tracks_per_message = config_manager_->getParameter<int>("data_processor", "max_tracks_per_message", 500);
+        config.enable_track_prediction = config_manager_->getParameter<bool>("data_processor", "enable_track_prediction", true);
+        config.hmi_topic = config_manager_->getParameter<std::string>("data_processor", "hmi_topic", "tracks_hmi");
+        config.fusion_topic = config_manager_->getParameter<std::string>("data_processor", "fusion_topic", "tracks_fusion");
+        config.metrics_topic = config_manager_->getParameter<std::string>("data_processor", "metrics_topic", "performance_metrics");
+        return config;
+    }
+    
+    rdp::TrackingManagerConfig buildTrackingManagerConfig() {
+        rdp::TrackingManagerConfig config;
+        config.max_tracks = config_manager_->getParameter<int>("tracking_manager", "max_tracks", 1000);
+        config.min_hits_for_confirmation = config_manager_->getParameter<int>("tracking_manager", "min_hits_for_confirmation", 3);
+        config.max_coasts = config_manager_->getParameter<int>("tracking_manager", "max_coasts", 5);
+        config.track_deletion_timeout_s = config_manager_->getParameter<double>("tracking_manager", "track_deletion_timeout_s", 30.0);
+        config.initiation_threshold = config_manager_->getParameter<double>("tracking_manager", "initiation_threshold", 0.8);
+        config.confirmation_threshold = config_manager_->getParameter<double>("tracking_manager", "confirmation_threshold", 0.9);
+        config.max_new_tracks_per_cycle = config_manager_->getParameter<int>("tracking_manager", "max_new_tracks_per_cycle", 50);
+        config.enable_prediction = config_manager_->getParameter<bool>("tracking_manager", "enable_prediction", true);
+        config.prediction_interval_s = config_manager_->getParameter<double>("tracking_manager", "prediction_interval_s", 0.1);
+        config.max_prediction_time_s = config_manager_->getParameter<double>("tracking_manager", "max_prediction_time_s", 1.0);
+        config.default_filter = static_cast<common::FilterType>(
+            config_manager_->getParameter<int>("tracking_manager", "default_filter", 0));
+        config.process_noise = config_manager_->getParameter<double>("tracking_manager", "process_noise", 0.1);
+        config.measurement_noise = config_manager_->getParameter<double>("tracking_manager", "measurement_noise", 1.0);
+        config.min_track_quality = config_manager_->getParameter<double>("tracking_manager", "min_track_quality", 0.5);
+        config.enable_track_merging = config_manager_->getParameter<bool>("tracking_manager", "enable_track_merging", true);
+        config.enable_track_splitting = config_manager_->getParameter<bool>("tracking_manager", "enable_track_splitting", false);
+        config.merge_distance_threshold = config_manager_->getParameter<double>("tracking_manager", "merge_distance_threshold", 10.0);
+        config.processing_threads = config_manager_->getParameter<int>("tracking_manager", "processing_threads", 2);
+        config.processing_timeout_ms = config_manager_->getParameter<double>("tracking_manager", "processing_timeout_ms", 200.0);
+        return config;
     }
 };
 

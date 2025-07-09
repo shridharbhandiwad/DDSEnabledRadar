@@ -67,6 +67,8 @@ endif()
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/shared/common/include
     ${CMAKE_CURRENT_SOURCE_DIR}/shared/interfaces/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/shared/logging/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/shared/configuration/include
     ${CMAKE_CURRENT_SOURCE_DIR}/protocols
 )
 

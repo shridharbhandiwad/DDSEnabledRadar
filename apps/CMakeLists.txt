@@ -15,9 +15,7 @@ target_include_directories(radar_data_processor PRIVATE
 )
 
 target_link_libraries(radar_data_processor PRIVATE
-    ${Protobuf_LIBRARIES}
     Threads::Threads
-    protocols
 )
 
 # Link shared libraries if they exist
@@ -65,9 +63,7 @@ target_include_directories(radar_signal_processor PRIVATE
 )
 
 target_link_libraries(radar_signal_processor PRIVATE
-    ${Protobuf_LIBRARIES}
     Threads::Threads
-    protocols
 )
 
 # Link shared libraries if they exist

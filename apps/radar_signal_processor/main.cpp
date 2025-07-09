@@ -60,7 +60,7 @@ public:
 
             // Initialize signal processor
             signal_processor_ = std::make_unique<rsp::SignalProcessor>();
-            auto sp_config = config_manager_->getSignalProcessorConfig();
+            auto sp_config = buildSignalProcessorConfig();
             if (!signal_processor_->configure(sp_config)) {
                 logger_->error("Radar Signal Processor", "Failed to configure signal processor");
                 return false;
@@ -68,7 +68,7 @@ public:
 
             // Initialize detection processor
             detection_processor_ = std::make_unique<rsp::DetectionProcessor>();
-            auto dp_config = config_manager_->getDetectionProcessorConfig();
+            auto dp_config = buildDetectionProcessorConfig();
             if (!detection_processor_->configure(dp_config)) {
                 logger_->error("Radar Signal Processor", "Failed to configure detection processor");
                 return false;
@@ -246,12 +246,12 @@ private:
             
             // Update component configurations
             if (signal_processor_) {
-                auto sp_config = config_manager_->getSignalProcessorConfig();
+                auto sp_config = buildSignalProcessorConfig();
                 signal_processor_->configure(sp_config);
             }
             
             if (detection_processor_) {
-                auto dp_config = config_manager_->getDetectionProcessorConfig();
+                auto dp_config = buildDetectionProcessorConfig();
                 detection_processor_->configure(dp_config);
             }
             
@@ -261,6 +261,38 @@ private:
             logger_->error("Radar Signal Processor", 
                 "Failed to reload configuration: " + std::string(e.what()));
         }
+    }
+    
+    rsp::SignalProcessorConfig buildSignalProcessorConfig() {
+        rsp::SignalProcessorConfig config;
+        config.sampling_rate = config_manager_->getParameter<double>("signal_processor", "sampling_rate", 1000.0);
+        config.threshold = config_manager_->getParameter<double>("signal_processor", "threshold", 0.1);
+        config.window_size = config_manager_->getParameter<int>("signal_processor", "window_size", 1024);
+        config.overlap = config_manager_->getParameter<int>("signal_processor", "overlap", 512);
+        config.enable_cfar = config_manager_->getParameter<bool>("signal_processor", "enable_cfar", true);
+        config.cfar_threshold = config_manager_->getParameter<double>("signal_processor", "cfar_threshold", 3.0);
+        config.max_detections_per_scan = config_manager_->getParameter<int>("signal_processor", "max_detections_per_scan", 500);
+        config.thread_count = config_manager_->getParameter<int>("signal_processor", "thread_count", 4);
+        config.buffer_size = config_manager_->getParameter<int>("signal_processor", "buffer_size", 10000);
+        config.processing_timeout_ms = config_manager_->getParameter<double>("signal_processor", "processing_timeout_ms", 50.0);
+        return config;
+    }
+    
+    rsp::DetectionProcessorConfig buildDetectionProcessorConfig() {
+        rsp::DetectionProcessorConfig config;
+        config.min_snr = config_manager_->getParameter<double>("detection_processor", "min_snr", 3.0);
+        config.max_range = config_manager_->getParameter<double>("detection_processor", "max_range", 50000.0);
+        config.min_range = config_manager_->getParameter<double>("detection_processor", "min_range", 100.0);
+        config.doppler_threshold = config_manager_->getParameter<double>("detection_processor", "doppler_threshold", 0.5);
+        config.max_detections = config_manager_->getParameter<int>("detection_processor", "max_detections", 1000);
+        config.enable_quality_check = config_manager_->getParameter<bool>("detection_processor", "enable_quality_check", true);
+        config.confidence_threshold = config_manager_->getParameter<double>("detection_processor", "confidence_threshold", 0.7);
+        config.output_buffer_size = config_manager_->getParameter<int>("detection_processor", "output_buffer_size", 5000);
+        config.output_rate_hz = config_manager_->getParameter<double>("detection_processor", "output_rate_hz", 50.0);
+        config.enable_compression = config_manager_->getParameter<bool>("detection_processor", "enable_compression", false);
+        config.data_processor_topic = config_manager_->getParameter<std::string>("detection_processor", "data_processor_topic", "detections");
+        config.heartbeat_interval_ms = config_manager_->getParameter<double>("detection_processor", "heartbeat_interval_ms", 1000.0);
+        return config;
     }
 };
 
