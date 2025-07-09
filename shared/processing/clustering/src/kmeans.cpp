@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <limits>
 #include <numeric>
+#include <set>
 
 namespace radar {
 namespace processing {
@@ -195,8 +196,16 @@ std::vector<int> KMeans::assignPointsToCentroids(
         int nearest_centroid = 0;
         
         for (size_t j = 0; j < centroids.size(); ++j) {
-            double distance = calculateDistance(detections[i], 
-                common::Detection{0, 0, {}, centroids[j].position});
+            common::Detection centroid_detection;
+            centroid_detection.id = 0;
+            centroid_detection.sensor_id = 0;
+            centroid_detection.timestamp = std::chrono::high_resolution_clock::now();
+            centroid_detection.position = centroids[j].position;
+            centroid_detection.position_covariance = common::Matrix3d::Identity();
+            centroid_detection.velocity = common::Vector3d::Zero();
+            centroid_detection.velocity_covariance = common::Matrix3d::Identity();
+            
+            double distance = calculateDistance(detections[i], centroid_detection);
             
             if (distance < min_distance) {
                 min_distance = distance;
