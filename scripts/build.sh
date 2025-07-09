@@ -173,64 +173,117 @@ check_requirements() {
 install_dependencies() {
     log_info "Installing system dependencies..."
     
-    # Detect Linux distribution
-    if [ -f /etc/os-release ]; then
-        . /etc/os-release
-        DISTRO=$ID
+    # Check if the Fast DDS fix script exists and run it
+    if [ -f "$SCRIPT_DIR/fix_fastdds_install.sh" ]; then
+        log_info "Running Fast DDS installation fix..."
+        chmod +x "$SCRIPT_DIR/fix_fastdds_install.sh"
+        "$SCRIPT_DIR/fix_fastdds_install.sh"
+        
+        # Check if DDS was disabled
+        if [ -f ~/.radar_no_dds ]; then
+            log_warning "DDS support has been disabled due to installation issues"
+            ENABLE_DDS=OFF
+        fi
     else
-        log_error "Cannot detect Linux distribution"
-        exit 1
+        log_warning "Fast DDS fix script not found, attempting manual installation..."
+        
+        # Detect Linux distribution
+        if [ -f /etc/os-release ]; then
+            . /etc/os-release
+            DISTRO=$ID
+        else
+            log_error "Cannot detect Linux distribution"
+            exit 1
+        fi
+        
+        case $DISTRO in
+            ubuntu|debian)
+                sudo apt-get update
+                
+                # Try to install with Fast DDS packages, but continue if they fail
+                if ! sudo apt-get install -y \
+                    build-essential \
+                    cmake \
+                    pkg-config \
+                    libprotobuf-dev \
+                    protobuf-compiler \
+                    libyaml-cpp-dev \
+                    libspdlog-dev \
+                    libeigen3-dev \
+                    libgtest-dev \
+                    libgmock-dev \
+                    libfastrtps-dev \
+                    fastrtps-tools \
+                    doxygen \
+                    clang-format \
+                    valgrind; then
+                    
+                    log_warning "Fast DDS packages failed to install, installing without DDS support..."
+                    sudo apt-get install -y \
+                        build-essential \
+                        cmake \
+                        pkg-config \
+                        libprotobuf-dev \
+                        protobuf-compiler \
+                        libyaml-cpp-dev \
+                        libspdlog-dev \
+                        libeigen3-dev \
+                        libgtest-dev \
+                        libgmock-dev \
+                        doxygen \
+                        clang-format \
+                        valgrind \
+                        libtinyxml2-dev \
+                        libasio-dev \
+                        libssl-dev
+                    
+                    # Mark DDS as disabled
+                    ENABLE_DDS=OFF
+                    touch ~/.radar_no_dds
+                fi
+                ;;
+            centos|rhel|fedora)
+                if command -v dnf &> /dev/null; then
+                    PKG_MGR="dnf"
+                else
+                    PKG_MGR="yum"
+                fi
+                
+                sudo $PKG_MGR install -y \
+                    gcc-c++ \
+                    cmake \
+                    pkgconfig \
+                    protobuf-devel \
+                    protobuf-compiler \
+                    yaml-cpp-devel \
+                    spdlog-devel \
+                    eigen3-devel \
+                    gtest-devel \
+                    gmock-devel \
+                    doxygen \
+                    clang-tools-extra \
+                    valgrind-devel \
+                    tinyxml2-devel \
+                    openssl-devel
+                
+                # Fast DDS typically not available in these repos
+                ENABLE_DDS=OFF
+                touch ~/.radar_no_dds
+                ;;
+            *)
+                log_warning "Unsupported distribution: $DISTRO"
+                log_info "Please install dependencies manually"
+                ENABLE_DDS=OFF
+                touch ~/.radar_no_dds
+                ;;
+        esac
     fi
     
-    case $DISTRO in
-        ubuntu|debian)
-            sudo apt-get update
-            sudo apt-get install -y \
-                build-essential \
-                cmake \
-                pkg-config \
-                libprotobuf-dev \
-                protobuf-compiler \
-                libyaml-cpp-dev \
-                libspdlog-dev \
-                libeigen3-dev \
-                libgtest-dev \
-                libgmock-dev \
-                libfastrtps-dev \
-                fastrtps-tools \
-                doxygen \
-                clang-format \
-                valgrind
-            ;;
-        centos|rhel|fedora)
-            if command -v dnf &> /dev/null; then
-                PKG_MGR="dnf"
-            else
-                PKG_MGR="yum"
-            fi
-            
-            sudo $PKG_MGR install -y \
-                gcc-c++ \
-                cmake \
-                pkgconfig \
-                protobuf-devel \
-                protobuf-compiler \
-                yaml-cpp-devel \
-                spdlog-devel \
-                eigen3-devel \
-                gtest-devel \
-                gmock-devel \
-                doxygen \
-                clang-tools-extra \
-                valgrind-devel
-            ;;
-        *)
-            log_warning "Unsupported distribution: $DISTRO"
-            log_info "Please install dependencies manually"
-            ;;
-    esac
+    log_success "Dependencies installation completed"
     
-    log_success "Dependencies installed"
+    if [ "$ENABLE_DDS" = "OFF" ]; then
+        log_warning "Building without DDS support - will use UDP/TCP communication"
+    fi
 }
 
 # Configure build
@@ -255,6 +308,17 @@ configure_build() {
         -DENABLE_PROFILING="$ENABLE_PROFILING"
         -DENABLE_REAL_TIME="$ENABLE_REAL_TIME"
     )
+    
+    # Add DDS configuration if it was set during dependency installation
+    if [ "$ENABLE_DDS" = "OFF" ]; then
+        CMAKE_ARGS+=(-DDDS_SUPPORT=OFF)
+        CMAKE_ARGS+=(-DENABLE_DDS=OFF)
+        log_info "CMake configured to build without DDS support"
+    elif [ "$ENABLE_DDS" = "ON" ]; then
+        CMAKE_ARGS+=(-DDDS_SUPPORT=ON)
+        CMAKE_ARGS+=(-DENABLE_DDS=ON)
+        log_info "CMake configured to build with DDS support"
+    fi
     
     if [ "$VERBOSE" = true ]; then
         CMAKE_ARGS+=(-DCMAKE_VERBOSE_MAKEFILE=ON)
