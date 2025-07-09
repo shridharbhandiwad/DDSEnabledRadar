@@ -311,9 +311,9 @@ void GNN::applyAssignmentConstraints(
     const double max_cost = config_.parameters.at("max_cost");
     
     // Ensure matrix is square for Hungarian algorithm
-    size_t max_dim = std::max(cost_matrix.rows(), cost_matrix.cols());
+    size_t max_dim = std::max(static_cast<size_t>(cost_matrix.rows()), static_cast<size_t>(cost_matrix.cols()));
     
-    if (cost_matrix.rows() != max_dim || cost_matrix.cols() != max_dim) {
+    if (static_cast<size_t>(cost_matrix.rows()) != max_dim || static_cast<size_t>(cost_matrix.cols()) != max_dim) {
         common::MatrixXd square_matrix = common::MatrixXd::Constant(max_dim, max_dim, max_cost);
         
         // Copy original matrix to top-left corner
@@ -429,7 +429,7 @@ std::vector<int> GNN::solveAssignment(const common::MatrixXd& cost_matrix) const
     
     if (result.is_valid) {
         for (const auto& assignment : result.assignment) {
-            if (assignment.first < assignments.size()) {
+            if (static_cast<size_t>(assignment.first) < assignments.size()) {
                 assignments[assignment.first] = assignment.second;
             }
         }
