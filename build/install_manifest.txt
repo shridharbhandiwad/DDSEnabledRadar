@@ -1,0 +1,5 @@
+/workspace/build/install/bin/radar_data_processor
+/workspace/build/install/bin/radar_signal_processor
+/workspace/build/install/config/system_config.yaml
+/workspace/build/install/scripts/build.sh
+/workspace/build/install/scripts/fix_fastdds_install.sh
