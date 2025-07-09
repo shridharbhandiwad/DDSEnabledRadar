@@ -1,0 +1,284 @@
+syntax = "proto3";
+
+package radar.messages;
+
+import "google/protobuf/timestamp.proto";
+import "radar_messages.proto";
+
+// Filter type enumeration
+enum FilterType {
+    FILTER_TYPE_UNSPECIFIED = 0;
+    KALMAN = 1;
+    EXTENDED_KALMAN = 2;
+    UNSCENTED_KALMAN = 3;
+    IMM = 4;
+    PARTICLE = 5;
+    CUSTOM = 6;
+}
+
+// Track state vector
+message TrackState {
+    repeated double state = 1;            // State vector elements
+    repeated double covariance = 2;       // Covariance matrix (flattened)
+    uint32 state_size = 3;               // Dimension of state vector
+    MotionModel motion_model = 4;
+    
+    // Convenience fields for common state layouts
+    Point3D position = 5;
+    Vector3D velocity = 6;
+    Vector3D acceleration = 7;
+}
+
+// Single track message
+message Track {
+    uint32 id = 1;
+    uint32 sensor_id = 2;
+    google.protobuf.Timestamp created_time = 3;
+    google.protobuf.Timestamp last_update_time = 4;
+    
+    TrackState current_state = 5;
+    TrackState predicted_state = 6;
+    
+    TrackState state = 7;
+    
+    uint32 hit_count = 8;      // Number of successful associations
+    uint32 miss_count = 9;     // Number of missed detections
+    uint32 coast_count = 10;   // Number of coasting cycles
+    
+    double confidence = 11;    // Track confidence [0,1]
+    double likelihood = 12;    // Current likelihood
+    
+    FilterType filter_type = 13;
+    
+    // Classification
+    string target_class = 14;
+    map<string, double> classification_scores = 15;
+    
+    // Track quality metrics
+    double track_quality = 16;
+    double innovation_magnitude = 17;
+    double mahalanobis_distance = 18;
+    
+    // Kinematic properties
+    double speed = 19;         // Current speed (m/s)
+    double heading = 20;       // Current heading (radians)
+    double turn_rate = 21;     // Current turn rate (rad/s)
+    double range = 22;         // Range from sensor (m)
+    double bearing = 23;       // Bearing from sensor (radians)
+    double elevation = 24;     // Elevation from sensor (radians)
+    
+    // Additional attributes
+    map<string, double> attributes = 25;
+}
+
+// Batch of tracks
+message TrackBatch {
+    repeated Track tracks = 1;
+    google.protobuf.Timestamp batch_timestamp = 2;
+    uint32 sensor_id = 3;
+    uint32 sequence_number = 4;
+    
+    // Processing metadata
+    double processing_time_ms = 5;
+    uint32 total_tracks = 6;
+    uint32 confirmed_tracks = 7;
+    uint32 tentative_tracks = 8;
+    uint32 coasting_tracks = 9;
+    uint32 deleted_tracks = 10;
+    
+    // Association statistics
+    uint32 total_associations = 11;
+    uint32 successful_associations = 12;
+    double association_rate = 13;
+    
+    // Performance metrics
+    PerformanceMetrics performance = 14;
+}
+
+// Track update message for individual track changes
+message TrackUpdate {
+    uint32 track_id = 1;
+    uint32 sensor_id = 2;
+    google.protobuf.Timestamp timestamp = 3;
+    
+    enum UpdateType {
+        UPDATE_TYPE_UNSPECIFIED = 0;
+        BIRTH = 1;          // New track created
+        UPDATE = 2;         // Track updated with detection
+        PREDICT = 3;        // Track predicted (no detection)
+        CONFIRM = 4;        // Track confirmed
+        DELETE = 5;         // Track deleted
+        MERGE = 6;          // Track merged with another
+        SPLIT = 7;          // Track split into multiple
+    }
+    
+    UpdateType update_type = 4;
+    Track track = 5;
+    
+    // Association information
+    uint32 associated_detection_id = 6;
+    double association_score = 7;
+    
+    // Update-specific data
+    map<string, string> update_data = 8;
+}
+
+// Track history for analysis
+message TrackHistory {
+    uint32 track_id = 1;
+    uint32 sensor_id = 2;
+    
+    repeated TrackState state_history = 3;
+    repeated google.protobuf.Timestamp timestamps = 4;
+    repeated Detection associated_detections = 5;
+    
+    // Statistics
+    double average_speed = 6;
+    double max_speed = 7;
+    double total_distance = 8;
+    double total_time_seconds = 9;
+    
+    // Track quality over time
+    repeated double confidence_history = 10;
+    repeated double likelihood_history = 11;
+}
+
+// Cluster of detections
+message DetectionCluster {
+    uint32 id = 1;
+    repeated Detection detections = 2;
+    Point3D centroid = 3;
+    Matrix3D covariance = 4;
+    google.protobuf.Timestamp timestamp = 5;
+    
+    enum ClusteringAlgorithm {
+        CLUSTERING_ALGORITHM_UNSPECIFIED = 0;
+        DBSCAN = 1;
+        KMEANS = 2;
+        HIERARCHICAL = 3;
+        CUSTOM = 4;
+    }
+    
+    ClusteringAlgorithm algorithm = 6;
+    
+    // Cluster properties
+    uint32 detection_count = 7;
+    double cluster_radius = 8;
+    double cluster_density = 9;
+    
+    // Processing metadata
+    double processing_time_ms = 10;
+    map<string, double> algorithm_parameters = 11;
+}
+
+// Association result
+message Association {
+    uint32 track_id = 1;
+    uint32 detection_id = 2;
+    double score = 3;         // Association score/probability
+    double distance = 4;      // Mahalanobis or Euclidean distance
+    bool is_valid = 5;
+    
+    // Association-specific data
+    Vector3D innovation = 6;
+    Matrix3D innovation_covariance = 7;
+    double likelihood = 8;
+    
+    enum AssociationAlgorithm {
+        ASSOCIATION_ALGORITHM_UNSPECIFIED = 0;
+        NEAREST_NEIGHBOR = 1;
+        GLOBAL_NEAREST_NEIGHBOR = 2;
+        JOINT_PROBABILISTIC = 3;
+        MULTIPLE_HYPOTHESIS = 4;
+        CUSTOM = 5;
+    }
+    
+    AssociationAlgorithm algorithm = 9;
+}
+
+// Multi-sensor fusion data
+message FusionData {
+    google.protobuf.Timestamp timestamp = 1;
+    uint32 fusion_id = 2;
+    
+    // Tracks from multiple sensors
+    repeated Track fused_tracks = 3;
+    
+    // Source information
+    repeated uint32 contributing_sensors = 4;
+    map<uint32, double> sensor_weights = 5;
+    
+    // Fusion quality metrics
+    double fusion_quality = 6;
+    double cross_correlation = 7;
+    uint32 redundant_tracks = 8;
+    uint32 unique_tracks = 9;
+    
+    // Uncertainty estimates
+    double position_uncertainty = 10;
+    double velocity_uncertainty = 11;
+    
+    // Processing metadata
+    double fusion_time_ms = 12;
+    string fusion_algorithm = 13;
+}
+
+// Threat assessment message
+message ThreatAssessment {
+    uint32 track_id = 1;
+    google.protobuf.Timestamp timestamp = 2;
+    
+    enum ThreatLevel {
+        THREAT_LEVEL_UNSPECIFIED = 0;
+        LOW = 1;
+        MEDIUM = 2;
+        HIGH = 3;
+        CRITICAL = 4;
+    }
+    
+    ThreatLevel threat_level = 3;
+    double threat_score = 4;   // Normalized threat score [0,1]
+    
+    // Threat factors
+    double proximity_factor = 5;
+    double velocity_factor = 6;
+    double trajectory_factor = 7;
+    double classification_factor = 8;
+    
+    // Predicted intercept information
+    Point3D predicted_intercept = 9;
+    double time_to_intercept_seconds = 10;
+    double intercept_probability = 11;
+    
+    // Recommendations
+    repeated string recommended_actions = 12;
+    string priority = 13;
+}
+
+// System configuration message
+message SystemConfiguration {
+    google.protobuf.Timestamp timestamp = 1;
+    
+    // Processing algorithms
+    string clustering_algorithm = 2;
+    string association_algorithm = 3;
+    string filter_algorithm = 4;
+    
+    // Algorithm parameters
+    map<string, double> clustering_params = 5;
+    map<string, double> association_params = 6;
+    map<string, double> filter_params = 7;
+    
+    // System parameters
+    double update_rate_hz = 8;
+    uint32 max_tracks = 9;
+    double track_timeout_seconds = 10;
+    double confirmation_threshold = 11;
+    double deletion_threshold = 12;
+    
+    // Output configuration
+    bool enable_hmi_output = 13;
+    bool enable_fusion_output = 14;
+    bool enable_logging = 15;
+    string log_level = 16;
+}
