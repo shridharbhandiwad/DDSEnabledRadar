@@ -49,9 +49,9 @@ enum MotionModel {
     CUSTOM = 5;
 }
 
-// Track state enumeration
-enum TrackState {
-    TRACK_STATE_UNSPECIFIED = 0;
+// Track status enumeration
+enum TrackStatus {
+    TRACK_STATUS_UNSPECIFIED = 0;
     TENTATIVE = 1;
     CONFIRMED = 2;
     COASTING = 3;
