@@ -106,7 +106,7 @@ std::vector<interfaces::AssociationHypothesis> JPDA::getHypotheses(
                     assoc_pair.first < static_cast<int>(tracks.size()) &&
                     assoc_pair.second < static_cast<int>(detections.size())) {
                     
-                    common::Association association;
+                    common::Association association{};
                     association.track_id = tracks[assoc_pair.first].id;
                     association.detection_id = detections[assoc_pair.second].id;
                     association.distance = calculateMahalanobisDistance(
@@ -116,6 +116,8 @@ std::vector<interfaces::AssociationHypothesis> JPDA::getHypotheses(
                         assoc_pair.first, assoc_pair.second, tracks, detections, gate);
                     association.is_valid = true;
                     association.algorithm = common::AssociationAlgorithm::JPDA;
+                    association.innovation = common::Vector3d::Zero();
+                    association.innovation_covariance = common::Matrix3d::Zero();
                     
                     hypothesis.associations.push_back(association);
                 }
@@ -290,8 +292,8 @@ std::vector<JPDA::AssociationProbability> JPDA::calculateMarginalProbabilities(
                 // Find corresponding marginal probability entry
                 auto it = std::find_if(marginal_probs.begin(), marginal_probs.end(),
                     [&](const AssociationProbability& p) {
-                        return p.track_id == tracks[track_idx].id && 
-                               p.detection_id == detections[det_idx].id;
+                                                return p.track_id == static_cast<int>(tracks[track_idx].id) &&
+                               p.detection_id == static_cast<int>(detections[det_idx].id);
                     });
                 
                 if (it != marginal_probs.end()) {
@@ -336,9 +338,9 @@ std::vector<common::Association> JPDA::createAssociationsFromProbabilities(
             
             // Calculate innovation for this pair
             auto track_it = std::find_if(tracks.begin(), tracks.end(),
-                [&](const common::Track& t) { return t.id == prob.track_id; });
+                [&](const common::Track& t) { return static_cast<int>(t.id) == prob.track_id; });
             auto det_it = std::find_if(detections.begin(), detections.end(),
-                [&](const common::Detection& d) { return d.id == prob.detection_id; });
+                [&](const common::Detection& d) { return static_cast<int>(d.id) == prob.detection_id; });
                 
             if (track_it != tracks.end() && det_it != detections.end()) {
                 auto predicted_pos = track_it->predicted_state.getPosition();

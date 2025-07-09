@@ -22,30 +22,30 @@ HierarchicalClustering::HierarchicalClustering() {
     distance_threshold_ = config_.parameters["distance_threshold"];
 }
 
-interfaces::ClusteringResult HierarchicalClustering::cluster(
+std::vector<common::DetectionCluster> HierarchicalClustering::cluster(
     const std::vector<common::Detection>& detections) {
     
     auto start_time = std::chrono::high_resolution_clock::now();
     
-    interfaces::ClusteringResult result;
+    std::vector<common::DetectionCluster> result;
     
     if (detections.empty()) {
-        result.is_valid = false;
         return result;
     }
     
     if (detections.size() == 1) {
         // Single detection forms one cluster
-        common::Cluster single_cluster;
+        common::DetectionCluster single_cluster;
         single_cluster.id = 0;
         single_cluster.detections = detections;
         single_cluster.centroid = detections[0].position;
-        single_cluster.size = 1;
-        single_cluster.cohesion = 1.0;
+        single_cluster.detection_count = 1;
+        single_cluster.cluster_radius = 0.0;
+        single_cluster.cluster_density = 1.0;
+        single_cluster.algorithm = common::ClusteringAlgorithm::HIERARCHICAL;
+        single_cluster.timestamp = std::chrono::high_resolution_clock::now();
         
-        result.clusters.push_back(single_cluster);
-        result.cluster_assignments.push_back(0);
-        result.is_valid = true;
+        result.push_back(single_cluster);
         return result;
     }
     
@@ -419,25 +419,26 @@ std::vector<double> HierarchicalClustering::getMergeDistances() const {
     return distances;
 }
 
-interfaces::ClusteringResult HierarchicalClustering::createClusteringResult(
+std::vector<common::DetectionCluster> HierarchicalClustering::createClusteringResult(
     const std::vector<int>& assignments,
     const std::vector<common::Detection>& detections) const {
     
-    interfaces::ClusteringResult result;
+    std::vector<common::DetectionCluster> result;
     
     // Find maximum cluster ID to determine number of clusters
     int max_cluster_id = *std::max_element(assignments.begin(), assignments.end());
     
     if (max_cluster_id < 0) {
-        result.is_valid = false;
         return result;
     }
     
     // Initialize clusters
-    std::vector<common::Cluster> clusters(max_cluster_id + 1);
+    std::vector<common::DetectionCluster> clusters(max_cluster_id + 1);
     for (int i = 0; i <= max_cluster_id; ++i) {
         clusters[i].id = i;
-        clusters[i].size = 0;
+        clusters[i].detection_count = 0;
+        clusters[i].algorithm = common::ClusteringAlgorithm::HIERARCHICAL;
+        clusters[i].timestamp = std::chrono::high_resolution_clock::now();
     }
     
     // Assign detections to clusters
@@ -445,43 +446,53 @@ interfaces::ClusteringResult HierarchicalClustering::createClusteringResult(
         int cluster_id = assignments[i];
         if (cluster_id >= 0) {
             clusters[cluster_id].detections.push_back(detections[i]);
-            clusters[cluster_id].size++;
+            clusters[cluster_id].detection_count++;
         }
     }
     
     // Calculate cluster properties
     for (auto& cluster : clusters) {
-        if (cluster.size > 0) {
+        if (cluster.detection_count > 0) {
             // Calculate centroid
             common::Vector3d centroid_sum = common::Vector3d::Zero();
             for (const auto& detection : cluster.detections) {
                 centroid_sum += detection.position.toEigen();
             }
-            centroid_sum /= static_cast<double>(cluster.size);
-            cluster.centroid = common::Position3D(centroid_sum.x(), centroid_sum.y(), centroid_sum.z());
+            centroid_sum /= static_cast<double>(cluster.detection_count);
+            cluster.centroid = common::Point3D(centroid_sum.x(), centroid_sum.y(), centroid_sum.z());
             
-            // Calculate cohesion (average intra-cluster distance)
-            if (cluster.size > 1) {
-                double total_distance = 0.0;
-                int count = 0;
-                
-                for (size_t i = 0; i < cluster.detections.size(); ++i) {
-                    for (size_t j = i + 1; j < cluster.detections.size(); ++j) {
-                        total_distance += calculateDistance(cluster.detections[i], cluster.detections[j]);
-                        count++;
-                    }
-                }
-                
-                cluster.cohesion = count > 0 ? total_distance / count : 0.0;
+            // Calculate cluster radius (maximum distance from centroid)
+            double max_distance = 0.0;
+            for (const auto& detection : cluster.detections) {
+                double dist = (detection.position.toEigen() - centroid_sum).norm();
+                max_distance = std::max(max_distance, dist);
+            }
+            cluster.cluster_radius = max_distance;
+            
+            // Calculate cluster density (detections per unit volume)
+            if (cluster.cluster_radius > 0) {
+                double volume = (4.0/3.0) * M_PI * std::pow(cluster.cluster_radius, 3);
+                cluster.cluster_density = cluster.detection_count / volume;
             } else {
-                cluster.cohesion = 0.0;  // Single point clusters have perfect cohesion
+                cluster.cluster_density = std::numeric_limits<double>::infinity();
+            }
+            
+            // Calculate covariance matrix
+            if (cluster.detection_count > 1) {
+                common::Matrix3d covariance = common::Matrix3d::Zero();
+                for (const auto& detection : cluster.detections) {
+                    common::Vector3d diff = detection.position.toEigen() - centroid_sum;
+                    covariance += diff * diff.transpose();
+                }
+                covariance /= static_cast<double>(cluster.detection_count - 1);
+                cluster.covariance = covariance;
+            } else {
+                cluster.covariance = common::Matrix3d::Identity();
             }
         }
     }
     
-    result.clusters = clusters;
-    result.cluster_assignments = assignments;
-    result.is_valid = true;
+    result = clusters;
     
     return result;
 }
