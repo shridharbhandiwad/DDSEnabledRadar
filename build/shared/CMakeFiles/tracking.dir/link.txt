@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtracking.a CMakeFiles/tracking.dir/tracking/filters/src/ctr_filter.cpp.o CMakeFiles/tracking.dir/tracking/filters/src/filter_factory.cpp.o CMakeFiles/tracking.dir/tracking/filters/src/imm_filter.cpp.o CMakeFiles/tracking.dir/tracking/filters/src/kalman_filter.cpp.o CMakeFiles/tracking.dir/tracking/filters/src/particle_filter.cpp.o
+/usr/bin/ranlib libtracking.a

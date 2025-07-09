@@ -31,7 +31,7 @@ private:
 
     common::AlgorithmConfig config_;
     common::PerformanceMetrics performance_metrics_;
-    std::mt19937 random_generator_;
+    mutable std::mt19937 random_generator_;
 
 public:
     KMeans();
