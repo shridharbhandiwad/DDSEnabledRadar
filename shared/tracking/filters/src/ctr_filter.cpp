@@ -132,17 +132,17 @@ interfaces::UpdateResult CTRFilter::update(const common::Detection& detection) {
     gain_matrix_ = P * measurement_jacobian_.transpose() * innovation_covariance.inverse();
     
     // Update state: x_k+1|k+1 = x_k+1|k + K * innovation
-    auto updated_ctr_state = ctr_state + gain_matrix_ * innovation;
+    common::VectorXd updated_ctr_state = ctr_state + gain_matrix_ * innovation;
     
     // Bound turn rate
     updated_ctr_state(4) = boundTurnRate(updated_ctr_state(4));
     
     // Update covariance: P_k+1|k+1 = (I - K * H) * P_k+1|k
     auto I = common::MatrixXd::Identity(P.rows(), P.cols());
-    auto updated_covariance = (I - gain_matrix_ * measurement_jacobian_) * P;
+    common::MatrixXd updated_covariance = (I - gain_matrix_ * measurement_jacobian_) * P;
     
     // Ensure covariance remains positive definite
-    updated_covariance = 0.5 * (updated_covariance + updated_covariance.transpose());
+    updated_covariance = 0.5 * (updated_covariance + updated_covariance.transpose()).eval();
     
     // Convert back to TrackState
     current_state_ = ctrStateToTrackState(updated_ctr_state, updated_covariance);
