@@ -1,2 +1,0 @@
-/usr/bin/ar qc libradar_protocols.a CMakeFiles/radar_protocols.dir/generated/radar_messages.pb.cc.o CMakeFiles/radar_protocols.dir/generated/track_messages.pb.cc.o
-/usr/bin/ranlib libradar_protocols.a
