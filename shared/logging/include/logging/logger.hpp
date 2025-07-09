@@ -79,7 +79,7 @@ private:
     
     // Asynchronous logging
     std::queue<LogMessage> message_queue_;
-    std::mutex queue_mutex_;
+    mutable std::mutex queue_mutex_;  // Made mutable for const methods
     std::condition_variable queue_condition_;
     std::thread worker_thread_;
     

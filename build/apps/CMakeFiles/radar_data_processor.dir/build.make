@@ -86,21 +86,52 @@ apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/main.cpp.s: cmake_
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/radar_data_processor.dir/radar_data_processor/main.cpp.s"
 	cd /workspace/build/apps && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/apps/radar_data_processor/main.cpp -o CMakeFiles/radar_data_processor.dir/radar_data_processor/main.cpp.s
 
+apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.o: apps/CMakeFiles/radar_data_processor.dir/flags.make
+apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.o: /workspace/apps/radar_data_processor/data_processor.cpp
+apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.o: apps/CMakeFiles/radar_data_processor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.o"
+	cd /workspace/build/apps && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.o -MF CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.o.d -o CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.o -c /workspace/apps/radar_data_processor/data_processor.cpp
+
+apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.i"
+	cd /workspace/build/apps && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/apps/radar_data_processor/data_processor.cpp > CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.i
+
+apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.s"
+	cd /workspace/build/apps && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/apps/radar_data_processor/data_processor.cpp -o CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.s
+
+apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.o: apps/CMakeFiles/radar_data_processor.dir/flags.make
+apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.o: /workspace/apps/radar_data_processor/tracking_manager.cpp
+apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.o: apps/CMakeFiles/radar_data_processor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.o"
+	cd /workspace/build/apps && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.o -MF CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.o.d -o CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.o -c /workspace/apps/radar_data_processor/tracking_manager.cpp
+
+apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.i"
+	cd /workspace/build/apps && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/apps/radar_data_processor/tracking_manager.cpp > CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.i
+
+apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.s"
+	cd /workspace/build/apps && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/apps/radar_data_processor/tracking_manager.cpp -o CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.s
+
 # Object files for target radar_data_processor
 radar_data_processor_OBJECTS = \
-"CMakeFiles/radar_data_processor.dir/radar_data_processor/main.cpp.o"
+"CMakeFiles/radar_data_processor.dir/radar_data_processor/main.cpp.o" \
+"CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.o" \
+"CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.o"
 
 # External object files for target radar_data_processor
 radar_data_processor_EXTERNAL_OBJECTS =
 
 apps/radar_data_processor: apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/main.cpp.o
+apps/radar_data_processor: apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.o
+apps/radar_data_processor: apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.o
 apps/radar_data_processor: apps/CMakeFiles/radar_data_processor.dir/build.make
 apps/radar_data_processor: apps/CMakeFiles/radar_data_processor.dir/compiler_depend.ts
-apps/radar_data_processor: shared/libassociation.a
-apps/radar_data_processor: shared/libclustering.a
-apps/radar_data_processor: shared/libtracking.a
+apps/radar_data_processor: shared/libconfiguration.a
+apps/radar_data_processor: shared/liblogging.a
 apps/radar_data_processor: apps/CMakeFiles/radar_data_processor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable radar_data_processor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable radar_data_processor"
 	cd /workspace/build/apps && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/radar_data_processor.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -557,3 +557,25 @@ apps/CMakeFiles/radar_signal_processor.dir/radar_signal_processor/main.cpp.o
  /workspace/shared/interfaces/include/interfaces/i_logger.hpp
  /workspace/shared/logging/include/logging/logger.hpp
 
+apps/radar_signal_processor
+ /workspace/build/shared/libassociation.a
+ /workspace/build/shared/libclustering.a
+ /workspace/build/shared/libtracking.a
+ /lib/x86_64-linux-gnu/Scrt1.o
+ /lib/x86_64-linux-gnu/crti.o
+ /lib/x86_64-linux-gnu/crtn.o
+ /lib/x86_64-linux-gnu/libc.so
+ /lib/x86_64-linux-gnu/libc.so.6
+ /lib/x86_64-linux-gnu/libgcc_s.so.1
+ /lib/x86_64-linux-gnu/libm.so
+ /lib/x86_64-linux-gnu/libm.so.6
+ /lib/x86_64-linux-gnu/libmvec.so.1
+ /lib64/ld-linux-x86-64.so.2
+ /usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o
+ /usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o
+ /usr/lib/gcc/x86_64-linux-gnu/14/libgcc.a
+ /usr/lib/gcc/x86_64-linux-gnu/14/libgcc_s.so
+ /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so
+ /usr/lib/x86_64-linux-gnu/libc_nonshared.a
+ /workspace/build/apps/CMakeFiles/radar_signal_processor.dir/radar_signal_processor/main.cpp.o
+

@@ -192,358 +192,80 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-shared/CMakeFiles/association.dir/rule:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 shared/CMakeFiles/association.dir/rule
-.PHONY : shared/CMakeFiles/association.dir/rule
+shared/CMakeFiles/configuration.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 shared/CMakeFiles/configuration.dir/rule
+.PHONY : shared/CMakeFiles/configuration.dir/rule
 
 # Convenience name for target.
-association: shared/CMakeFiles/association.dir/rule
-.PHONY : association
+configuration: shared/CMakeFiles/configuration.dir/rule
+.PHONY : configuration
 
 # fast build rule for target.
-association/fast:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/build
-.PHONY : association/fast
+configuration/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/configuration.dir/build.make shared/CMakeFiles/configuration.dir/build
+.PHONY : configuration/fast
 
 # Convenience name for target.
-shared/CMakeFiles/clustering.dir/rule:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 shared/CMakeFiles/clustering.dir/rule
-.PHONY : shared/CMakeFiles/clustering.dir/rule
+shared/CMakeFiles/logging.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 shared/CMakeFiles/logging.dir/rule
+.PHONY : shared/CMakeFiles/logging.dir/rule
 
 # Convenience name for target.
-clustering: shared/CMakeFiles/clustering.dir/rule
-.PHONY : clustering
+logging: shared/CMakeFiles/logging.dir/rule
+.PHONY : logging
 
 # fast build rule for target.
-clustering/fast:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/build
-.PHONY : clustering/fast
+logging/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/logging.dir/build.make shared/CMakeFiles/logging.dir/build
+.PHONY : logging/fast
 
-# Convenience name for target.
-shared/CMakeFiles/tracking.dir/rule:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 shared/CMakeFiles/tracking.dir/rule
-.PHONY : shared/CMakeFiles/tracking.dir/rule
-
-# Convenience name for target.
-tracking: shared/CMakeFiles/tracking.dir/rule
-.PHONY : tracking
-
-# fast build rule for target.
-tracking/fast:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/build
-.PHONY : tracking/fast
-
-processing/association/src/gnn.o: processing/association/src/gnn.cpp.o
-.PHONY : processing/association/src/gnn.o
+configuration/src/config_manager.o: configuration/src/config_manager.cpp.o
+.PHONY : configuration/src/config_manager.o
 
 # target to build an object file
-processing/association/src/gnn.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/processing/association/src/gnn.cpp.o
-.PHONY : processing/association/src/gnn.cpp.o
+configuration/src/config_manager.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/configuration.dir/build.make shared/CMakeFiles/configuration.dir/configuration/src/config_manager.cpp.o
+.PHONY : configuration/src/config_manager.cpp.o
 
-processing/association/src/gnn.i: processing/association/src/gnn.cpp.i
-.PHONY : processing/association/src/gnn.i
+configuration/src/config_manager.i: configuration/src/config_manager.cpp.i
+.PHONY : configuration/src/config_manager.i
 
 # target to preprocess a source file
-processing/association/src/gnn.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/processing/association/src/gnn.cpp.i
-.PHONY : processing/association/src/gnn.cpp.i
+configuration/src/config_manager.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/configuration.dir/build.make shared/CMakeFiles/configuration.dir/configuration/src/config_manager.cpp.i
+.PHONY : configuration/src/config_manager.cpp.i
 
-processing/association/src/gnn.s: processing/association/src/gnn.cpp.s
-.PHONY : processing/association/src/gnn.s
+configuration/src/config_manager.s: configuration/src/config_manager.cpp.s
+.PHONY : configuration/src/config_manager.s
 
 # target to generate assembly for a file
-processing/association/src/gnn.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/processing/association/src/gnn.cpp.s
-.PHONY : processing/association/src/gnn.cpp.s
+configuration/src/config_manager.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/configuration.dir/build.make shared/CMakeFiles/configuration.dir/configuration/src/config_manager.cpp.s
+.PHONY : configuration/src/config_manager.cpp.s
 
-processing/association/src/hungarian_algorithm.o: processing/association/src/hungarian_algorithm.cpp.o
-.PHONY : processing/association/src/hungarian_algorithm.o
+logging/src/logger.o: logging/src/logger.cpp.o
+.PHONY : logging/src/logger.o
 
 # target to build an object file
-processing/association/src/hungarian_algorithm.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/processing/association/src/hungarian_algorithm.cpp.o
-.PHONY : processing/association/src/hungarian_algorithm.cpp.o
+logging/src/logger.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/logging.dir/build.make shared/CMakeFiles/logging.dir/logging/src/logger.cpp.o
+.PHONY : logging/src/logger.cpp.o
 
-processing/association/src/hungarian_algorithm.i: processing/association/src/hungarian_algorithm.cpp.i
-.PHONY : processing/association/src/hungarian_algorithm.i
-
-# target to preprocess a source file
-processing/association/src/hungarian_algorithm.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/processing/association/src/hungarian_algorithm.cpp.i
-.PHONY : processing/association/src/hungarian_algorithm.cpp.i
-
-processing/association/src/hungarian_algorithm.s: processing/association/src/hungarian_algorithm.cpp.s
-.PHONY : processing/association/src/hungarian_algorithm.s
-
-# target to generate assembly for a file
-processing/association/src/hungarian_algorithm.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/processing/association/src/hungarian_algorithm.cpp.s
-.PHONY : processing/association/src/hungarian_algorithm.cpp.s
-
-processing/association/src/jpda.o: processing/association/src/jpda.cpp.o
-.PHONY : processing/association/src/jpda.o
-
-# target to build an object file
-processing/association/src/jpda.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/processing/association/src/jpda.cpp.o
-.PHONY : processing/association/src/jpda.cpp.o
-
-processing/association/src/jpda.i: processing/association/src/jpda.cpp.i
-.PHONY : processing/association/src/jpda.i
+logging/src/logger.i: logging/src/logger.cpp.i
+.PHONY : logging/src/logger.i
 
 # target to preprocess a source file
-processing/association/src/jpda.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/processing/association/src/jpda.cpp.i
-.PHONY : processing/association/src/jpda.cpp.i
+logging/src/logger.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/logging.dir/build.make shared/CMakeFiles/logging.dir/logging/src/logger.cpp.i
+.PHONY : logging/src/logger.cpp.i
 
-processing/association/src/jpda.s: processing/association/src/jpda.cpp.s
-.PHONY : processing/association/src/jpda.s
-
-# target to generate assembly for a file
-processing/association/src/jpda.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/processing/association/src/jpda.cpp.s
-.PHONY : processing/association/src/jpda.cpp.s
-
-processing/association/src/nearest_neighbor.o: processing/association/src/nearest_neighbor.cpp.o
-.PHONY : processing/association/src/nearest_neighbor.o
-
-# target to build an object file
-processing/association/src/nearest_neighbor.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/processing/association/src/nearest_neighbor.cpp.o
-.PHONY : processing/association/src/nearest_neighbor.cpp.o
-
-processing/association/src/nearest_neighbor.i: processing/association/src/nearest_neighbor.cpp.i
-.PHONY : processing/association/src/nearest_neighbor.i
-
-# target to preprocess a source file
-processing/association/src/nearest_neighbor.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/processing/association/src/nearest_neighbor.cpp.i
-.PHONY : processing/association/src/nearest_neighbor.cpp.i
-
-processing/association/src/nearest_neighbor.s: processing/association/src/nearest_neighbor.cpp.s
-.PHONY : processing/association/src/nearest_neighbor.s
+logging/src/logger.s: logging/src/logger.cpp.s
+.PHONY : logging/src/logger.s
 
 # target to generate assembly for a file
-processing/association/src/nearest_neighbor.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/processing/association/src/nearest_neighbor.cpp.s
-.PHONY : processing/association/src/nearest_neighbor.cpp.s
-
-processing/clustering/src/clustering_factory.o: processing/clustering/src/clustering_factory.cpp.o
-.PHONY : processing/clustering/src/clustering_factory.o
-
-# target to build an object file
-processing/clustering/src/clustering_factory.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/processing/clustering/src/clustering_factory.cpp.o
-.PHONY : processing/clustering/src/clustering_factory.cpp.o
-
-processing/clustering/src/clustering_factory.i: processing/clustering/src/clustering_factory.cpp.i
-.PHONY : processing/clustering/src/clustering_factory.i
-
-# target to preprocess a source file
-processing/clustering/src/clustering_factory.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/processing/clustering/src/clustering_factory.cpp.i
-.PHONY : processing/clustering/src/clustering_factory.cpp.i
-
-processing/clustering/src/clustering_factory.s: processing/clustering/src/clustering_factory.cpp.s
-.PHONY : processing/clustering/src/clustering_factory.s
-
-# target to generate assembly for a file
-processing/clustering/src/clustering_factory.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/processing/clustering/src/clustering_factory.cpp.s
-.PHONY : processing/clustering/src/clustering_factory.cpp.s
-
-processing/clustering/src/dbscan.o: processing/clustering/src/dbscan.cpp.o
-.PHONY : processing/clustering/src/dbscan.o
-
-# target to build an object file
-processing/clustering/src/dbscan.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/processing/clustering/src/dbscan.cpp.o
-.PHONY : processing/clustering/src/dbscan.cpp.o
-
-processing/clustering/src/dbscan.i: processing/clustering/src/dbscan.cpp.i
-.PHONY : processing/clustering/src/dbscan.i
-
-# target to preprocess a source file
-processing/clustering/src/dbscan.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/processing/clustering/src/dbscan.cpp.i
-.PHONY : processing/clustering/src/dbscan.cpp.i
-
-processing/clustering/src/dbscan.s: processing/clustering/src/dbscan.cpp.s
-.PHONY : processing/clustering/src/dbscan.s
-
-# target to generate assembly for a file
-processing/clustering/src/dbscan.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/processing/clustering/src/dbscan.cpp.s
-.PHONY : processing/clustering/src/dbscan.cpp.s
-
-processing/clustering/src/hierarchical_clustering.o: processing/clustering/src/hierarchical_clustering.cpp.o
-.PHONY : processing/clustering/src/hierarchical_clustering.o
-
-# target to build an object file
-processing/clustering/src/hierarchical_clustering.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/processing/clustering/src/hierarchical_clustering.cpp.o
-.PHONY : processing/clustering/src/hierarchical_clustering.cpp.o
-
-processing/clustering/src/hierarchical_clustering.i: processing/clustering/src/hierarchical_clustering.cpp.i
-.PHONY : processing/clustering/src/hierarchical_clustering.i
-
-# target to preprocess a source file
-processing/clustering/src/hierarchical_clustering.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/processing/clustering/src/hierarchical_clustering.cpp.i
-.PHONY : processing/clustering/src/hierarchical_clustering.cpp.i
-
-processing/clustering/src/hierarchical_clustering.s: processing/clustering/src/hierarchical_clustering.cpp.s
-.PHONY : processing/clustering/src/hierarchical_clustering.s
-
-# target to generate assembly for a file
-processing/clustering/src/hierarchical_clustering.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/processing/clustering/src/hierarchical_clustering.cpp.s
-.PHONY : processing/clustering/src/hierarchical_clustering.cpp.s
-
-processing/clustering/src/kmeans.o: processing/clustering/src/kmeans.cpp.o
-.PHONY : processing/clustering/src/kmeans.o
-
-# target to build an object file
-processing/clustering/src/kmeans.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/processing/clustering/src/kmeans.cpp.o
-.PHONY : processing/clustering/src/kmeans.cpp.o
-
-processing/clustering/src/kmeans.i: processing/clustering/src/kmeans.cpp.i
-.PHONY : processing/clustering/src/kmeans.i
-
-# target to preprocess a source file
-processing/clustering/src/kmeans.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/processing/clustering/src/kmeans.cpp.i
-.PHONY : processing/clustering/src/kmeans.cpp.i
-
-processing/clustering/src/kmeans.s: processing/clustering/src/kmeans.cpp.s
-.PHONY : processing/clustering/src/kmeans.s
-
-# target to generate assembly for a file
-processing/clustering/src/kmeans.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/processing/clustering/src/kmeans.cpp.s
-.PHONY : processing/clustering/src/kmeans.cpp.s
-
-tracking/filters/src/ctr_filter.o: tracking/filters/src/ctr_filter.cpp.o
-.PHONY : tracking/filters/src/ctr_filter.o
-
-# target to build an object file
-tracking/filters/src/ctr_filter.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/ctr_filter.cpp.o
-.PHONY : tracking/filters/src/ctr_filter.cpp.o
-
-tracking/filters/src/ctr_filter.i: tracking/filters/src/ctr_filter.cpp.i
-.PHONY : tracking/filters/src/ctr_filter.i
-
-# target to preprocess a source file
-tracking/filters/src/ctr_filter.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/ctr_filter.cpp.i
-.PHONY : tracking/filters/src/ctr_filter.cpp.i
-
-tracking/filters/src/ctr_filter.s: tracking/filters/src/ctr_filter.cpp.s
-.PHONY : tracking/filters/src/ctr_filter.s
-
-# target to generate assembly for a file
-tracking/filters/src/ctr_filter.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/ctr_filter.cpp.s
-.PHONY : tracking/filters/src/ctr_filter.cpp.s
-
-tracking/filters/src/filter_factory.o: tracking/filters/src/filter_factory.cpp.o
-.PHONY : tracking/filters/src/filter_factory.o
-
-# target to build an object file
-tracking/filters/src/filter_factory.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/filter_factory.cpp.o
-.PHONY : tracking/filters/src/filter_factory.cpp.o
-
-tracking/filters/src/filter_factory.i: tracking/filters/src/filter_factory.cpp.i
-.PHONY : tracking/filters/src/filter_factory.i
-
-# target to preprocess a source file
-tracking/filters/src/filter_factory.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/filter_factory.cpp.i
-.PHONY : tracking/filters/src/filter_factory.cpp.i
-
-tracking/filters/src/filter_factory.s: tracking/filters/src/filter_factory.cpp.s
-.PHONY : tracking/filters/src/filter_factory.s
-
-# target to generate assembly for a file
-tracking/filters/src/filter_factory.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/filter_factory.cpp.s
-.PHONY : tracking/filters/src/filter_factory.cpp.s
-
-tracking/filters/src/imm_filter.o: tracking/filters/src/imm_filter.cpp.o
-.PHONY : tracking/filters/src/imm_filter.o
-
-# target to build an object file
-tracking/filters/src/imm_filter.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/imm_filter.cpp.o
-.PHONY : tracking/filters/src/imm_filter.cpp.o
-
-tracking/filters/src/imm_filter.i: tracking/filters/src/imm_filter.cpp.i
-.PHONY : tracking/filters/src/imm_filter.i
-
-# target to preprocess a source file
-tracking/filters/src/imm_filter.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/imm_filter.cpp.i
-.PHONY : tracking/filters/src/imm_filter.cpp.i
-
-tracking/filters/src/imm_filter.s: tracking/filters/src/imm_filter.cpp.s
-.PHONY : tracking/filters/src/imm_filter.s
-
-# target to generate assembly for a file
-tracking/filters/src/imm_filter.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/imm_filter.cpp.s
-.PHONY : tracking/filters/src/imm_filter.cpp.s
-
-tracking/filters/src/kalman_filter.o: tracking/filters/src/kalman_filter.cpp.o
-.PHONY : tracking/filters/src/kalman_filter.o
-
-# target to build an object file
-tracking/filters/src/kalman_filter.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/kalman_filter.cpp.o
-.PHONY : tracking/filters/src/kalman_filter.cpp.o
-
-tracking/filters/src/kalman_filter.i: tracking/filters/src/kalman_filter.cpp.i
-.PHONY : tracking/filters/src/kalman_filter.i
-
-# target to preprocess a source file
-tracking/filters/src/kalman_filter.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/kalman_filter.cpp.i
-.PHONY : tracking/filters/src/kalman_filter.cpp.i
-
-tracking/filters/src/kalman_filter.s: tracking/filters/src/kalman_filter.cpp.s
-.PHONY : tracking/filters/src/kalman_filter.s
-
-# target to generate assembly for a file
-tracking/filters/src/kalman_filter.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/kalman_filter.cpp.s
-.PHONY : tracking/filters/src/kalman_filter.cpp.s
-
-tracking/filters/src/particle_filter.o: tracking/filters/src/particle_filter.cpp.o
-.PHONY : tracking/filters/src/particle_filter.o
-
-# target to build an object file
-tracking/filters/src/particle_filter.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/particle_filter.cpp.o
-.PHONY : tracking/filters/src/particle_filter.cpp.o
-
-tracking/filters/src/particle_filter.i: tracking/filters/src/particle_filter.cpp.i
-.PHONY : tracking/filters/src/particle_filter.i
-
-# target to preprocess a source file
-tracking/filters/src/particle_filter.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/particle_filter.cpp.i
-.PHONY : tracking/filters/src/particle_filter.cpp.i
-
-tracking/filters/src/particle_filter.s: tracking/filters/src/particle_filter.cpp.s
-.PHONY : tracking/filters/src/particle_filter.s
-
-# target to generate assembly for a file
-tracking/filters/src/particle_filter.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/tracking/filters/src/particle_filter.cpp.s
-.PHONY : tracking/filters/src/particle_filter.cpp.s
+logging/src/logger.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f shared/CMakeFiles/logging.dir/build.make shared/CMakeFiles/logging.dir/logging/src/logger.cpp.s
+.PHONY : logging/src/logger.cpp.s
 
 # Help Target
 help:
@@ -560,48 +282,14 @@ help:
 	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... association"
-	@echo "... clustering"
-	@echo "... tracking"
-	@echo "... processing/association/src/gnn.o"
-	@echo "... processing/association/src/gnn.i"
-	@echo "... processing/association/src/gnn.s"
-	@echo "... processing/association/src/hungarian_algorithm.o"
-	@echo "... processing/association/src/hungarian_algorithm.i"
-	@echo "... processing/association/src/hungarian_algorithm.s"
-	@echo "... processing/association/src/jpda.o"
-	@echo "... processing/association/src/jpda.i"
-	@echo "... processing/association/src/jpda.s"
-	@echo "... processing/association/src/nearest_neighbor.o"
-	@echo "... processing/association/src/nearest_neighbor.i"
-	@echo "... processing/association/src/nearest_neighbor.s"
-	@echo "... processing/clustering/src/clustering_factory.o"
-	@echo "... processing/clustering/src/clustering_factory.i"
-	@echo "... processing/clustering/src/clustering_factory.s"
-	@echo "... processing/clustering/src/dbscan.o"
-	@echo "... processing/clustering/src/dbscan.i"
-	@echo "... processing/clustering/src/dbscan.s"
-	@echo "... processing/clustering/src/hierarchical_clustering.o"
-	@echo "... processing/clustering/src/hierarchical_clustering.i"
-	@echo "... processing/clustering/src/hierarchical_clustering.s"
-	@echo "... processing/clustering/src/kmeans.o"
-	@echo "... processing/clustering/src/kmeans.i"
-	@echo "... processing/clustering/src/kmeans.s"
-	@echo "... tracking/filters/src/ctr_filter.o"
-	@echo "... tracking/filters/src/ctr_filter.i"
-	@echo "... tracking/filters/src/ctr_filter.s"
-	@echo "... tracking/filters/src/filter_factory.o"
-	@echo "... tracking/filters/src/filter_factory.i"
-	@echo "... tracking/filters/src/filter_factory.s"
-	@echo "... tracking/filters/src/imm_filter.o"
-	@echo "... tracking/filters/src/imm_filter.i"
-	@echo "... tracking/filters/src/imm_filter.s"
-	@echo "... tracking/filters/src/kalman_filter.o"
-	@echo "... tracking/filters/src/kalman_filter.i"
-	@echo "... tracking/filters/src/kalman_filter.s"
-	@echo "... tracking/filters/src/particle_filter.o"
-	@echo "... tracking/filters/src/particle_filter.i"
-	@echo "... tracking/filters/src/particle_filter.s"
+	@echo "... configuration"
+	@echo "... logging"
+	@echo "... configuration/src/config_manager.o"
+	@echo "... configuration/src/config_manager.i"
+	@echo "... configuration/src/config_manager.s"
+	@echo "... logging/src/logger.o"
+	@echo "... logging/src/logger.i"
+	@echo "... logging/src/logger.s"
 .PHONY : help
 
 

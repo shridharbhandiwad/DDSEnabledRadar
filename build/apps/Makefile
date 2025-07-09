@@ -219,6 +219,30 @@ radar_signal_processor/fast:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_signal_processor.dir/build.make apps/CMakeFiles/radar_signal_processor.dir/build
 .PHONY : radar_signal_processor/fast
 
+radar_data_processor/data_processor.o: radar_data_processor/data_processor.cpp.o
+.PHONY : radar_data_processor/data_processor.o
+
+# target to build an object file
+radar_data_processor/data_processor.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_data_processor.dir/build.make apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.o
+.PHONY : radar_data_processor/data_processor.cpp.o
+
+radar_data_processor/data_processor.i: radar_data_processor/data_processor.cpp.i
+.PHONY : radar_data_processor/data_processor.i
+
+# target to preprocess a source file
+radar_data_processor/data_processor.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_data_processor.dir/build.make apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.i
+.PHONY : radar_data_processor/data_processor.cpp.i
+
+radar_data_processor/data_processor.s: radar_data_processor/data_processor.cpp.s
+.PHONY : radar_data_processor/data_processor.s
+
+# target to generate assembly for a file
+radar_data_processor/data_processor.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_data_processor.dir/build.make apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.s
+.PHONY : radar_data_processor/data_processor.cpp.s
+
 radar_data_processor/main.o: radar_data_processor/main.cpp.o
 .PHONY : radar_data_processor/main.o
 
@@ -242,6 +266,54 @@ radar_data_processor/main.s: radar_data_processor/main.cpp.s
 radar_data_processor/main.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_data_processor.dir/build.make apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/main.cpp.s
 .PHONY : radar_data_processor/main.cpp.s
+
+radar_data_processor/tracking_manager.o: radar_data_processor/tracking_manager.cpp.o
+.PHONY : radar_data_processor/tracking_manager.o
+
+# target to build an object file
+radar_data_processor/tracking_manager.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_data_processor.dir/build.make apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.o
+.PHONY : radar_data_processor/tracking_manager.cpp.o
+
+radar_data_processor/tracking_manager.i: radar_data_processor/tracking_manager.cpp.i
+.PHONY : radar_data_processor/tracking_manager.i
+
+# target to preprocess a source file
+radar_data_processor/tracking_manager.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_data_processor.dir/build.make apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.i
+.PHONY : radar_data_processor/tracking_manager.cpp.i
+
+radar_data_processor/tracking_manager.s: radar_data_processor/tracking_manager.cpp.s
+.PHONY : radar_data_processor/tracking_manager.s
+
+# target to generate assembly for a file
+radar_data_processor/tracking_manager.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_data_processor.dir/build.make apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.s
+.PHONY : radar_data_processor/tracking_manager.cpp.s
+
+radar_signal_processor/detection_processor.o: radar_signal_processor/detection_processor.cpp.o
+.PHONY : radar_signal_processor/detection_processor.o
+
+# target to build an object file
+radar_signal_processor/detection_processor.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_signal_processor.dir/build.make apps/CMakeFiles/radar_signal_processor.dir/radar_signal_processor/detection_processor.cpp.o
+.PHONY : radar_signal_processor/detection_processor.cpp.o
+
+radar_signal_processor/detection_processor.i: radar_signal_processor/detection_processor.cpp.i
+.PHONY : radar_signal_processor/detection_processor.i
+
+# target to preprocess a source file
+radar_signal_processor/detection_processor.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_signal_processor.dir/build.make apps/CMakeFiles/radar_signal_processor.dir/radar_signal_processor/detection_processor.cpp.i
+.PHONY : radar_signal_processor/detection_processor.cpp.i
+
+radar_signal_processor/detection_processor.s: radar_signal_processor/detection_processor.cpp.s
+.PHONY : radar_signal_processor/detection_processor.s
+
+# target to generate assembly for a file
+radar_signal_processor/detection_processor.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_signal_processor.dir/build.make apps/CMakeFiles/radar_signal_processor.dir/radar_signal_processor/detection_processor.cpp.s
+.PHONY : radar_signal_processor/detection_processor.cpp.s
 
 radar_signal_processor/main.o: radar_signal_processor/main.cpp.o
 .PHONY : radar_signal_processor/main.o
@@ -267,6 +339,30 @@ radar_signal_processor/main.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_signal_processor.dir/build.make apps/CMakeFiles/radar_signal_processor.dir/radar_signal_processor/main.cpp.s
 .PHONY : radar_signal_processor/main.cpp.s
 
+radar_signal_processor/signal_processor.o: radar_signal_processor/signal_processor.cpp.o
+.PHONY : radar_signal_processor/signal_processor.o
+
+# target to build an object file
+radar_signal_processor/signal_processor.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_signal_processor.dir/build.make apps/CMakeFiles/radar_signal_processor.dir/radar_signal_processor/signal_processor.cpp.o
+.PHONY : radar_signal_processor/signal_processor.cpp.o
+
+radar_signal_processor/signal_processor.i: radar_signal_processor/signal_processor.cpp.i
+.PHONY : radar_signal_processor/signal_processor.i
+
+# target to preprocess a source file
+radar_signal_processor/signal_processor.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_signal_processor.dir/build.make apps/CMakeFiles/radar_signal_processor.dir/radar_signal_processor/signal_processor.cpp.i
+.PHONY : radar_signal_processor/signal_processor.cpp.i
+
+radar_signal_processor/signal_processor.s: radar_signal_processor/signal_processor.cpp.s
+.PHONY : radar_signal_processor/signal_processor.s
+
+# target to generate assembly for a file
+radar_signal_processor/signal_processor.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_signal_processor.dir/build.make apps/CMakeFiles/radar_signal_processor.dir/radar_signal_processor/signal_processor.cpp.s
+.PHONY : radar_signal_processor/signal_processor.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -284,12 +380,24 @@ help:
 	@echo "... test"
 	@echo "... radar_data_processor"
 	@echo "... radar_signal_processor"
+	@echo "... radar_data_processor/data_processor.o"
+	@echo "... radar_data_processor/data_processor.i"
+	@echo "... radar_data_processor/data_processor.s"
 	@echo "... radar_data_processor/main.o"
 	@echo "... radar_data_processor/main.i"
 	@echo "... radar_data_processor/main.s"
+	@echo "... radar_data_processor/tracking_manager.o"
+	@echo "... radar_data_processor/tracking_manager.i"
+	@echo "... radar_data_processor/tracking_manager.s"
+	@echo "... radar_signal_processor/detection_processor.o"
+	@echo "... radar_signal_processor/detection_processor.i"
+	@echo "... radar_signal_processor/detection_processor.s"
 	@echo "... radar_signal_processor/main.o"
 	@echo "... radar_signal_processor/main.i"
 	@echo "... radar_signal_processor/main.s"
+	@echo "... radar_signal_processor/signal_processor.o"
+	@echo "... radar_signal_processor/signal_processor.i"
+	@echo "... radar_signal_processor/signal_processor.s"
 .PHONY : help
 
 

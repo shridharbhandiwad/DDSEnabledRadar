@@ -7,6 +7,7 @@
 #include <atomic>
 #include <chrono>
 #include <vector>
+#include <thread>
 #include "interfaces/i_logger.hpp"
 
 namespace radar {
