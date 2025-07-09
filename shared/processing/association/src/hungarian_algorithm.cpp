@@ -70,8 +70,6 @@ std::vector<int> HungarianAlgorithm::hungarianMethod(common::MatrixXd cost_matri
     std::vector<bool> col_covered(n, false);
     
     // Step 3: Cover zeros with minimum number of lines
-    int num_covered_lines = 0;
-    
     while (true) {
         // Try to find maximum assignment using current zeros
         assignment.assign(n, -1);

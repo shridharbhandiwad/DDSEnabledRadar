@@ -201,7 +201,9 @@ bool ClusteringFactory::validateConfiguration(
     
     // Create a temporary instance to validate configuration
     try {
-        auto clustering_instance = create(algorithm, {});
+        // Create a non-const temporary factory to create the instance
+        ClusteringFactory temp_factory;
+        auto clustering_instance = temp_factory.create(algorithm, {});
         return clustering_instance->validateConfiguration(config);
     } catch (const std::exception&) {
         return false;
