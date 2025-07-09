@@ -1,8 +1,10 @@
 #include "association/gnn.hpp"
+#include "association/hungarian_algorithm.hpp"
 #include <cmath>
 #include <limits>
 #include <algorithm>
 #include <numeric>
+#include <set>
 
 namespace radar {
 namespace processing {
@@ -416,6 +418,24 @@ common::PerformanceMetrics GNN::getPerformanceMetrics() const {
 void GNN::setDistanceFunction(
     std::function<double(const common::Track&, const common::Detection&)> distance_func) {
     custom_distance_func_ = distance_func;
+}
+
+std::vector<int> GNN::solveAssignment(const common::MatrixXd& cost_matrix) const {
+    // Use Hungarian algorithm to solve the assignment problem
+    auto result = HungarianAlgorithm::solve(cost_matrix);
+    
+    // Convert result to assignment vector format
+    std::vector<int> assignments(cost_matrix.rows(), -1);
+    
+    if (result.is_valid) {
+        for (const auto& assignment : result.assignment) {
+            if (assignment.first < assignments.size()) {
+                assignments[assignment.first] = assignment.second;
+            }
+        }
+    }
+    
+    return assignments;
 }
 
 } // namespace association
