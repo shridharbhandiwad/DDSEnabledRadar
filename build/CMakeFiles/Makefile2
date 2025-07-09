@@ -114,15 +114,13 @@ apps/clean: apps/CMakeFiles/radar_signal_processor.dir/clean
 # Directory level rules for directory shared
 
 # Recursive "all" directory target.
-shared/all: shared/CMakeFiles/association.dir/all
-shared/all: shared/CMakeFiles/clustering.dir/all
-shared/all: shared/CMakeFiles/tracking.dir/all
+shared/all: shared/CMakeFiles/configuration.dir/all
+shared/all: shared/CMakeFiles/logging.dir/all
 .PHONY : shared/all
 
 # Recursive "codegen" directory target.
-shared/codegen: shared/CMakeFiles/association.dir/codegen
-shared/codegen: shared/CMakeFiles/clustering.dir/codegen
-shared/codegen: shared/CMakeFiles/tracking.dir/codegen
+shared/codegen: shared/CMakeFiles/configuration.dir/codegen
+shared/codegen: shared/CMakeFiles/logging.dir/codegen
 .PHONY : shared/codegen
 
 # Recursive "preinstall" directory target.
@@ -130,9 +128,8 @@ shared/preinstall:
 .PHONY : shared/preinstall
 
 # Recursive "clean" directory target.
-shared/clean: shared/CMakeFiles/association.dir/clean
-shared/clean: shared/CMakeFiles/clustering.dir/clean
-shared/clean: shared/CMakeFiles/tracking.dir/clean
+shared/clean: shared/CMakeFiles/configuration.dir/clean
+shared/clean: shared/CMakeFiles/logging.dir/clean
 .PHONY : shared/clean
 
 #=============================================================================
@@ -161,7 +158,7 @@ tests/clean:
 CMakeFiles/format.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/format.dir/build.make CMakeFiles/format.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/format.dir/build.make CMakeFiles/format.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=12 "Built target format"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=4 "Built target format"
 .PHONY : CMakeFiles/format.dir/all
 
 # Build rule for subdir invocation for target.
@@ -178,7 +175,7 @@ format: CMakeFiles/format.dir/rule
 # codegen rule for target.
 CMakeFiles/format.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/format.dir/build.make CMakeFiles/format.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=12 "Finished codegen for target format"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=4 "Finished codegen for target format"
 .PHONY : CMakeFiles/format.dir/codegen
 
 # clean rule for target.
@@ -193,7 +190,7 @@ CMakeFiles/format.dir/clean:
 CMakeFiles/docs.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/docs.dir/build.make CMakeFiles/docs.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/docs.dir/build.make CMakeFiles/docs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=11 "Built target docs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=3 "Built target docs"
 .PHONY : CMakeFiles/docs.dir/all
 
 # Build rule for subdir invocation for target.
@@ -210,7 +207,7 @@ docs: CMakeFiles/docs.dir/rule
 # codegen rule for target.
 CMakeFiles/docs.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/docs.dir/build.make CMakeFiles/docs.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=11 "Finished codegen for target docs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=3 "Finished codegen for target docs"
 .PHONY : CMakeFiles/docs.dir/codegen
 
 # clean rule for target.
@@ -219,116 +216,83 @@ CMakeFiles/docs.dir/clean:
 .PHONY : CMakeFiles/docs.dir/clean
 
 #=============================================================================
-# Target rules for target shared/CMakeFiles/association.dir
+# Target rules for target shared/CMakeFiles/configuration.dir
 
 # All Build rule for target.
-shared/CMakeFiles/association.dir/all:
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/depend
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target association"
-.PHONY : shared/CMakeFiles/association.dir/all
+shared/CMakeFiles/configuration.dir/all:
+	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/configuration.dir/build.make shared/CMakeFiles/configuration.dir/depend
+	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/configuration.dir/build.make shared/CMakeFiles/configuration.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=1,2 "Built target configuration"
+.PHONY : shared/CMakeFiles/configuration.dir/all
 
 # Build rule for subdir invocation for target.
-shared/CMakeFiles/association.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 5
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 shared/CMakeFiles/association.dir/all
+shared/CMakeFiles/configuration.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 shared/CMakeFiles/configuration.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
-.PHONY : shared/CMakeFiles/association.dir/rule
+.PHONY : shared/CMakeFiles/configuration.dir/rule
 
 # Convenience name for target.
-association: shared/CMakeFiles/association.dir/rule
-.PHONY : association
+configuration: shared/CMakeFiles/configuration.dir/rule
+.PHONY : configuration
 
 # codegen rule for target.
-shared/CMakeFiles/association.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=1,2,3,4,5 "Finished codegen for target association"
-.PHONY : shared/CMakeFiles/association.dir/codegen
+shared/CMakeFiles/configuration.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/configuration.dir/build.make shared/CMakeFiles/configuration.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=1,2 "Finished codegen for target configuration"
+.PHONY : shared/CMakeFiles/configuration.dir/codegen
 
 # clean rule for target.
-shared/CMakeFiles/association.dir/clean:
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/clean
-.PHONY : shared/CMakeFiles/association.dir/clean
+shared/CMakeFiles/configuration.dir/clean:
+	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/configuration.dir/build.make shared/CMakeFiles/configuration.dir/clean
+.PHONY : shared/CMakeFiles/configuration.dir/clean
 
 #=============================================================================
-# Target rules for target shared/CMakeFiles/clustering.dir
+# Target rules for target shared/CMakeFiles/logging.dir
 
 # All Build rule for target.
-shared/CMakeFiles/clustering.dir/all:
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/depend
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=6,7,8,9,10 "Built target clustering"
-.PHONY : shared/CMakeFiles/clustering.dir/all
+shared/CMakeFiles/logging.dir/all:
+	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/logging.dir/build.make shared/CMakeFiles/logging.dir/depend
+	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/logging.dir/build.make shared/CMakeFiles/logging.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=5,6 "Built target logging"
+.PHONY : shared/CMakeFiles/logging.dir/all
 
 # Build rule for subdir invocation for target.
-shared/CMakeFiles/clustering.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 5
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 shared/CMakeFiles/clustering.dir/all
+shared/CMakeFiles/logging.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 shared/CMakeFiles/logging.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
-.PHONY : shared/CMakeFiles/clustering.dir/rule
+.PHONY : shared/CMakeFiles/logging.dir/rule
 
 # Convenience name for target.
-clustering: shared/CMakeFiles/clustering.dir/rule
-.PHONY : clustering
+logging: shared/CMakeFiles/logging.dir/rule
+.PHONY : logging
 
 # codegen rule for target.
-shared/CMakeFiles/clustering.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=6,7,8,9,10 "Finished codegen for target clustering"
-.PHONY : shared/CMakeFiles/clustering.dir/codegen
+shared/CMakeFiles/logging.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/logging.dir/build.make shared/CMakeFiles/logging.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=5,6 "Finished codegen for target logging"
+.PHONY : shared/CMakeFiles/logging.dir/codegen
 
 # clean rule for target.
-shared/CMakeFiles/clustering.dir/clean:
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/clean
-.PHONY : shared/CMakeFiles/clustering.dir/clean
-
-#=============================================================================
-# Target rules for target shared/CMakeFiles/tracking.dir
-
-# All Build rule for target.
-shared/CMakeFiles/tracking.dir/all:
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/depend
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=17,18,19,20,21,22 "Built target tracking"
-.PHONY : shared/CMakeFiles/tracking.dir/all
-
-# Build rule for subdir invocation for target.
-shared/CMakeFiles/tracking.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 6
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 shared/CMakeFiles/tracking.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
-.PHONY : shared/CMakeFiles/tracking.dir/rule
-
-# Convenience name for target.
-tracking: shared/CMakeFiles/tracking.dir/rule
-.PHONY : tracking
-
-# codegen rule for target.
-shared/CMakeFiles/tracking.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=17,18,19,20,21,22 "Finished codegen for target tracking"
-.PHONY : shared/CMakeFiles/tracking.dir/codegen
-
-# clean rule for target.
-shared/CMakeFiles/tracking.dir/clean:
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/clean
-.PHONY : shared/CMakeFiles/tracking.dir/clean
+shared/CMakeFiles/logging.dir/clean:
+	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/logging.dir/build.make shared/CMakeFiles/logging.dir/clean
+.PHONY : shared/CMakeFiles/logging.dir/clean
 
 #=============================================================================
 # Target rules for target apps/CMakeFiles/radar_data_processor.dir
 
 # All Build rule for target.
-apps/CMakeFiles/radar_data_processor.dir/all: shared/CMakeFiles/association.dir/all
-apps/CMakeFiles/radar_data_processor.dir/all: shared/CMakeFiles/clustering.dir/all
-apps/CMakeFiles/radar_data_processor.dir/all: shared/CMakeFiles/tracking.dir/all
+apps/CMakeFiles/radar_data_processor.dir/all: shared/CMakeFiles/configuration.dir/all
+apps/CMakeFiles/radar_data_processor.dir/all: shared/CMakeFiles/logging.dir/all
 	$(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_data_processor.dir/build.make apps/CMakeFiles/radar_data_processor.dir/depend
 	$(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_data_processor.dir/build.make apps/CMakeFiles/radar_data_processor.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=13,14 "Built target radar_data_processor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=7,8,9,10 "Built target radar_data_processor"
 .PHONY : apps/CMakeFiles/radar_data_processor.dir/all
 
 # Build rule for subdir invocation for target.
 apps/CMakeFiles/radar_data_processor.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/CMakeFiles/radar_data_processor.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
 .PHONY : apps/CMakeFiles/radar_data_processor.dir/rule
@@ -340,7 +304,7 @@ radar_data_processor: apps/CMakeFiles/radar_data_processor.dir/rule
 # codegen rule for target.
 apps/CMakeFiles/radar_data_processor.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_data_processor.dir/build.make apps/CMakeFiles/radar_data_processor.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=13,14 "Finished codegen for target radar_data_processor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=7,8,9,10 "Finished codegen for target radar_data_processor"
 .PHONY : apps/CMakeFiles/radar_data_processor.dir/codegen
 
 # clean rule for target.
@@ -352,17 +316,16 @@ apps/CMakeFiles/radar_data_processor.dir/clean:
 # Target rules for target apps/CMakeFiles/radar_signal_processor.dir
 
 # All Build rule for target.
-apps/CMakeFiles/radar_signal_processor.dir/all: shared/CMakeFiles/association.dir/all
-apps/CMakeFiles/radar_signal_processor.dir/all: shared/CMakeFiles/clustering.dir/all
-apps/CMakeFiles/radar_signal_processor.dir/all: shared/CMakeFiles/tracking.dir/all
+apps/CMakeFiles/radar_signal_processor.dir/all: shared/CMakeFiles/configuration.dir/all
+apps/CMakeFiles/radar_signal_processor.dir/all: shared/CMakeFiles/logging.dir/all
 	$(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_signal_processor.dir/build.make apps/CMakeFiles/radar_signal_processor.dir/depend
 	$(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_signal_processor.dir/build.make apps/CMakeFiles/radar_signal_processor.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=15,16 "Built target radar_signal_processor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=11,12,13,14 "Built target radar_signal_processor"
 .PHONY : apps/CMakeFiles/radar_signal_processor.dir/all
 
 # Build rule for subdir invocation for target.
 apps/CMakeFiles/radar_signal_processor.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/CMakeFiles/radar_signal_processor.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
 .PHONY : apps/CMakeFiles/radar_signal_processor.dir/rule
@@ -374,7 +337,7 @@ radar_signal_processor: apps/CMakeFiles/radar_signal_processor.dir/rule
 # codegen rule for target.
 apps/CMakeFiles/radar_signal_processor.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f apps/CMakeFiles/radar_signal_processor.dir/build.make apps/CMakeFiles/radar_signal_processor.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=15,16 "Finished codegen for target radar_signal_processor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=11,12,13,14 "Finished codegen for target radar_signal_processor"
 .PHONY : apps/CMakeFiles/radar_signal_processor.dir/codegen
 
 # clean rule for target.

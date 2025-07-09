@@ -218,43 +218,30 @@ docs/fast:
 .PHONY : docs/fast
 
 #=============================================================================
-# Target rules for targets named association
+# Target rules for targets named configuration
 
 # Build rule for target.
-association: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 association
-.PHONY : association
+configuration: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 configuration
+.PHONY : configuration
 
 # fast build rule for target.
-association/fast:
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/association.dir/build.make shared/CMakeFiles/association.dir/build
-.PHONY : association/fast
+configuration/fast:
+	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/configuration.dir/build.make shared/CMakeFiles/configuration.dir/build
+.PHONY : configuration/fast
 
 #=============================================================================
-# Target rules for targets named clustering
+# Target rules for targets named logging
 
 # Build rule for target.
-clustering: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clustering
-.PHONY : clustering
+logging: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 logging
+.PHONY : logging
 
 # fast build rule for target.
-clustering/fast:
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/clustering.dir/build.make shared/CMakeFiles/clustering.dir/build
-.PHONY : clustering/fast
-
-#=============================================================================
-# Target rules for targets named tracking
-
-# Build rule for target.
-tracking: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tracking
-.PHONY : tracking
-
-# fast build rule for target.
-tracking/fast:
-	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/tracking.dir/build.make shared/CMakeFiles/tracking.dir/build
-.PHONY : tracking/fast
+logging/fast:
+	$(MAKE) $(MAKESILENT) -f shared/CMakeFiles/logging.dir/build.make shared/CMakeFiles/logging.dir/build
+.PHONY : logging/fast
 
 #=============================================================================
 # Target rules for targets named radar_data_processor
@@ -299,11 +286,10 @@ help:
 	@echo "... test"
 	@echo "... docs"
 	@echo "... format"
-	@echo "... association"
-	@echo "... clustering"
+	@echo "... configuration"
+	@echo "... logging"
 	@echo "... radar_data_processor"
 	@echo "... radar_signal_processor"
-	@echo "... tracking"
 .PHONY : help
 
 

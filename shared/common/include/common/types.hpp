@@ -5,20 +5,62 @@
 #include <chrono>
 #include <string>
 #include <unordered_map>
-#include <Eigen/Dense>
 
 namespace radar {
 namespace common {
 
-// Type aliases for convenience
-using Vector2d = Eigen::Vector2d;
-using Vector3d = Eigen::Vector3d;
-using Vector4d = Eigen::Vector4d;
-using VectorXd = Eigen::VectorXd;
-using Matrix2d = Eigen::Matrix2d;
-using Matrix3d = Eigen::Matrix3d;
-using Matrix4d = Eigen::Matrix4d;
-using MatrixXd = Eigen::MatrixXd;
+// Simple math structures (Eigen replacements)
+struct Vector2d {
+    double x{0.0}, y{0.0};
+    Vector2d() = default;
+    Vector2d(double x_, double y_) : x(x_), y(y_) {}
+};
+
+struct Vector3d {
+    double x{0.0}, y{0.0}, z{0.0};
+    Vector3d() = default;
+    Vector3d(double x_, double y_, double z_) : x(x_), y(y_), z(z_) {}
+};
+
+struct Vector4d {
+    double x{0.0}, y{0.0}, z{0.0}, w{0.0};
+    Vector4d() = default;
+    Vector4d(double x_, double y_, double z_, double w_) : x(x_), y(y_), z(z_), w(w_) {}
+};
+
+struct VectorXd {
+    std::vector<double> data;
+    VectorXd() = default;
+    VectorXd(size_t size) : data(size, 0.0) {}
+    double& operator[](size_t i) { return data[i]; }
+    const double& operator[](size_t i) const { return data[i]; }
+    size_t size() const { return data.size(); }
+};
+
+struct Matrix2d {
+    double data[2][2] = {{0.0, 0.0}, {0.0, 0.0}};
+    Matrix2d() = default;
+};
+
+struct Matrix3d {
+    double data[3][3] = {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}};
+    Matrix3d() = default;
+};
+
+struct Matrix4d {
+    double data[4][4] = {{0.0}};
+    Matrix4d() = default;
+};
+
+struct MatrixXd {
+    std::vector<std::vector<double>> data;
+    MatrixXd() = default;
+    MatrixXd(size_t rows, size_t cols) : data(rows, std::vector<double>(cols, 0.0)) {}
+    std::vector<double>& operator[](size_t i) { return data[i]; }
+    const std::vector<double>& operator[](size_t i) const { return data[i]; }
+    size_t rows() const { return data.size(); }
+    size_t cols() const { return data.empty() ? 0 : data[0].size(); }
+};
 
 using TimeStamp = std::chrono::high_resolution_clock::time_point;
 using Duration = std::chrono::duration<double>;
@@ -97,8 +139,8 @@ struct Point2D {
     Point2D() = default;
     Point2D(double x_, double y_) : x(x_), y(y_) {}
     
-    Vector2d toEigen() const { return Vector2d(x, y); }
-    static Point2D fromEigen(const Vector2d& v) { return Point2D(v.x(), v.y()); }
+    Vector2d toVector() const { return Vector2d(x, y); }
+    static Point2D fromVector(const Vector2d& v) { return Point2D(v.x, v.y); }
 };
 
 struct Point3D {
@@ -109,8 +151,8 @@ struct Point3D {
     Point3D() = default;
     Point3D(double x_, double y_, double z_) : x(x_), y(y_), z(z_) {}
     
-    Vector3d toEigen() const { return Vector3d(x, y, z); }
-    static Point3D fromEigen(const Vector3d& v) { return Point3D(v.x(), v.y(), v.z()); }
+    Vector3d toVector() const { return Vector3d(x, y, z); }
+    static Point3D fromVector(const Vector3d& v) { return Point3D(v.x, v.y, v.z); }
 };
 
 struct PolarPoint {
@@ -125,24 +167,25 @@ struct PolarPoint {
     static PolarPoint fromCartesian(const Point3D& cartesian);
 };
 
-// Detection data structure
+// Simplified Detection structure for initial compilation
 struct Detection {
-    DetectionId id{INVALID_DETECTION_ID};
+    DetectionId detection_id{INVALID_DETECTION_ID};
     SensorId sensor_id{INVALID_SENSOR_ID};
-    TimeStamp timestamp;
+    std::chrono::system_clock::time_point timestamp;
     
-    Point3D position;           // Measured position
-    Matrix3d position_covariance; // Position uncertainty
-    
-    Vector3d velocity;          // Measured velocity (if available)
-    Matrix3d velocity_covariance; // Velocity uncertainty
-    
-    double snr{0.0};           // Signal-to-noise ratio
-    double amplitude{0.0};     // Signal amplitude
-    double doppler{0.0};       // Doppler frequency
+    double range{0.0};
+    double azimuth{0.0};
+    double elevation{0.0};
+    double doppler_velocity{0.0};
+    double snr{0.0};
+    double confidence{0.0};
     
     DetectionType type{DetectionType::POINT_TARGET};
-    CoordinateSystem coord_system{CoordinateSystem::CARTESIAN};
+    CoordinateSystem coord_system{CoordinateSystem::POLAR};
+    
+    // Position in Cartesian coordinates
+    Point3D position;
+    Vector3d velocity;
     
     // Additional attributes
     std::unordered_map<std::string, double> attributes;
@@ -167,30 +210,29 @@ struct TrackStateVector {
 // Alias for interface compatibility
 using TrackState = TrackStateVector;
 
-// Track information
+// Simplified Track structure
 struct Track {
-    TrackId id{INVALID_TRACK_ID};
+    TrackId track_id{INVALID_TRACK_ID};
     SensorId sensor_id{INVALID_SENSOR_ID};
-    TimeStamp created_time;
-    TimeStamp last_update_time;
+    std::chrono::system_clock::time_point creation_time;
+    std::chrono::system_clock::time_point last_update;
     
-    TrackStateVector current_state;
-    TrackStateVector predicted_state;
+    Point3D position;
+    Vector3d velocity;
     
-    radar::common::TrackStatus status{radar::common::TrackStatus::TENTATIVE};
+    TrackStatus status{TrackStatus::TENTATIVE};
     
     uint32_t hit_count{0};     // Number of successful associations
     uint32_t miss_count{0};    // Number of missed detections
     uint32_t coast_count{0};   // Number of coasting cycles
     
     double confidence{0.0};    // Track confidence [0,1]
-    double likelihood{0.0};    // Current likelihood
+    double quality{0.0};       // Track quality [0,1]
     
     FilterType filter_type{FilterType::KALMAN};
     
     // Track history
     std::vector<Detection> associated_detections;
-    std::vector<TrackStateVector> state_history;
     
     // Classification
     std::string target_class{"unknown"};
@@ -199,44 +241,47 @@ struct Track {
 
 // Cluster of detections
 struct DetectionCluster {
-    uint32_t id{0};
+    uint32_t cluster_id{0};
     std::vector<Detection> detections;
-    Point3D centroid;
-    Matrix3d covariance;
-    TimeStamp timestamp;
+    Detection centroid;  // Use Detection as centroid
+    std::chrono::system_clock::time_point timestamp;
     ClusteringAlgorithm algorithm{ClusteringAlgorithm::DBSCAN};
     
     // Cluster properties
     uint32_t detection_count{0};
     double cluster_radius{0.0};
     double cluster_density{0.0};
+    double confidence{0.0};
 };
 
 // Association result
 struct Association {
     TrackId track_id{INVALID_TRACK_ID};
     DetectionId detection_id{INVALID_DETECTION_ID};
-    double score{0.0};         // Association score/probability
-    double distance{0.0};      // Mahalanobis or Euclidean distance
+    DetectionCluster detection_cluster;
+    double association_score{0.0};
+    double distance{0.0};
     bool is_valid{false};
+    std::chrono::system_clock::time_point timestamp;
     
     // Additional association information
-    double likelihood{0.0};    // Association likelihood
+    double likelihood{0.0};
     AssociationAlgorithm algorithm{AssociationAlgorithm::NEAREST_NEIGHBOR};
-    Vector3d innovation;       // Innovation vector
-    Matrix3d innovation_covariance; // Innovation covariance matrix
 };
 
 // System performance metrics
 struct PerformanceMetrics {
-    TimeStamp timestamp;
+    std::chrono::system_clock::time_point timestamp;
     double processing_time_ms{0.0};
     double detection_rate{0.0};
     double false_alarm_rate{0.0};
     uint32_t active_tracks{0};
+    uint32_t tracks_active{0};
     uint32_t total_detections{0};
+    uint32_t detections_processed{0};
     double cpu_usage{0.0};
-    double memory_usage_mb{0.0};
+    double memory_usage{0.0};
+    uint32_t errors_count{0};
 };
 
 // Configuration structures
