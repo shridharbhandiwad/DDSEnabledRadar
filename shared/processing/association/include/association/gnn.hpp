@@ -156,6 +156,13 @@ private:
         const std::vector<common::Track>& tracks,
         const std::vector<common::Detection>& detections,
         const interfaces::AssociationGate& gate) const;
+
+    /**
+     * @brief Solve assignment problem using Hungarian algorithm
+     * @param cost_matrix Cost matrix for assignment
+     * @return Assignment vector (track_index -> detection_index)
+     */
+    std::vector<int> solveAssignment(const common::MatrixXd& cost_matrix) const;
 };
 
 } // namespace association

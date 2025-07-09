@@ -76,7 +76,7 @@ public:
     ~HierarchicalClustering() override = default;
 
     // IClustering interface implementation
-    interfaces::ClusteringResult cluster(
+    std::vector<common::DetectionCluster> cluster(
         const std::vector<common::Detection>& detections) override;
 
     bool configure(const common::AlgorithmConfig& config) override;
@@ -265,7 +265,7 @@ private:
      * @param detections Original detections
      * @return Clustering result
      */
-    interfaces::ClusteringResult createClusteringResult(
+    std::vector<common::DetectionCluster> createClusteringResult(
         const std::vector<int>& assignments,
         const std::vector<common::Detection>& detections) const;
 

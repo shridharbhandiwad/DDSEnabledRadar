@@ -75,6 +75,7 @@ enum class AssociationAlgorithm {
     NEAREST_NEIGHBOR,   // NN
     GLOBAL_NEAREST_NEIGHBOR, // GNN
     JOINT_PROBABILISTIC, // JPDA
+    JPDA = JOINT_PROBABILISTIC, // Alias for JPDA
     MULTIPLE_HYPOTHESIS, // MHT
     CUSTOM
 };
@@ -147,7 +148,7 @@ struct Detection {
 };
 
 // Track state vector
-struct TrackState {
+struct TrackStateVector {
     VectorXd state;            // State vector (position, velocity, etc.)
     MatrixXd covariance;       // State covariance matrix
     MotionModel motion_model{MotionModel::CONSTANT_VELOCITY};
@@ -169,8 +170,8 @@ struct Track {
     TimeStamp created_time;
     TimeStamp last_update_time;
     
-    TrackState current_state;
-    TrackState predicted_state;
+    TrackStateVector current_state;
+    TrackStateVector predicted_state;
     
     radar::common::TrackState state{radar::common::TrackState::TENTATIVE};
     
@@ -185,7 +186,7 @@ struct Track {
     
     // Track history
     std::vector<Detection> associated_detections;
-    std::vector<TrackState> state_history;
+    std::vector<TrackStateVector> state_history;
     
     // Classification
     std::string target_class{"unknown"};
@@ -200,6 +201,11 @@ struct DetectionCluster {
     Matrix3d covariance;
     TimeStamp timestamp;
     ClusteringAlgorithm algorithm{ClusteringAlgorithm::DBSCAN};
+    
+    // Cluster properties
+    uint32_t detection_count{0};
+    double cluster_radius{0.0};
+    double cluster_density{0.0};
 };
 
 // Association result
@@ -209,6 +215,12 @@ struct Association {
     double score{0.0};         // Association score/probability
     double distance{0.0};      // Mahalanobis or Euclidean distance
     bool is_valid{false};
+    
+    // Additional association information
+    double likelihood{0.0};    // Association likelihood
+    AssociationAlgorithm algorithm{AssociationAlgorithm::NEAREST_NEIGHBOR};
+    Vector3d innovation;       // Innovation vector
+    Matrix3d innovation_covariance; // Innovation covariance matrix
 };
 
 // System performance metrics

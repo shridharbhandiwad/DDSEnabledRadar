@@ -13,7 +13,7 @@ enum FilterType {
     UNSCENTED_KALMAN = 3;
     IMM = 4;
     PARTICLE = 5;
-    CUSTOM = 6;
+    FILTER_CUSTOM = 6;
 }
 
 // Track state vector
@@ -156,7 +156,7 @@ message DetectionCluster {
         DBSCAN = 1;
         KMEANS = 2;
         HIERARCHICAL = 3;
-        CUSTOM = 4;
+        CLUSTERING_CUSTOM = 4;
     }
     
     ClusteringAlgorithm algorithm = 6;
@@ -190,7 +190,7 @@ message Association {
         GLOBAL_NEAREST_NEIGHBOR = 2;
         JOINT_PROBABILISTIC = 3;
         MULTIPLE_HYPOTHESIS = 4;
-        CUSTOM = 5;
+        ASSOCIATION_CUSTOM = 5;
     }
     
     AssociationAlgorithm algorithm = 9;
