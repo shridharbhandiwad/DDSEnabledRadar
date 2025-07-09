@@ -61,7 +61,7 @@ private:
     mutable std::normal_distribution<double> normal_dist_;
     mutable std::uniform_real_distribution<double> uniform_dist_;
     
-    ResamplingMethod resampling_method_{ResamplingMethod::SYSTEMATIC};
+    // ResamplingMethod resampling_method_{ResamplingMethod::SYSTEMATIC}; // Reserved for future use
 
 public:
     ParticleFilter();

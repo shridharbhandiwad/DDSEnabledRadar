@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DSPDLOG_COMPILED_LIB
 
-CXX_INCLUDES = -I/workspace/shared/common/include -I/workspace/shared/interfaces/include -I/workspace/protocols -I/workspace/shared/processing/clustering/include
+CXX_INCLUDES = -I/workspace/shared/common/include -I/workspace/shared/interfaces/include -I/workspace/protocols -I/workspace/shared/processing/clustering/include -isystem /usr/include/eigen3
 
 CXX_FLAGS = -std=c++17 -Wall -Wextra -Wpedantic -Werror -Wno-unused-parameter -fPIC
 

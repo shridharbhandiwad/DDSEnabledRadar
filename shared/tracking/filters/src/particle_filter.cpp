@@ -310,12 +310,10 @@ void ParticleFilter::residualResampling() {
     // Calculate number of copies for each particle
     std::vector<int> num_copies(num_particles_);
     std::vector<double> residual_weights;
-    int total_copies = 0;
     
     for (int i = 0; i < num_particles_; ++i) {
         double normalized_weight = particles_[i].weight * num_particles_ / total_weight;
         num_copies[i] = static_cast<int>(std::floor(normalized_weight));
-        total_copies += num_copies[i];
         
         double residual = normalized_weight - num_copies[i];
         residual_weights.push_back(residual);
