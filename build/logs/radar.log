@@ -1,0 +1,34 @@
+[2025-07-09 19:26:14.703] [INFO] [Radar Data Processor] Initializing application...
+[2025-07-09 19:26:14.703] [INFO] [Radar Data Processor] Application initialized successfully
+[2025-07-09 19:26:14.703] [INFO] [Radar Data Processor] Starting application...
+[2025-07-09 19:26:14.703] [INFO] [Tracking Thread] Starting tracking loop
+[2025-07-09 19:26:14.703] [INFO] [Processing Thread] Starting data processing loop
+[2025-07-09 19:26:14.704] [INFO] [Radar Data Processor] Application started successfully
+[2025-07-09 19:26:14.704] [INFO] [Radar Data Processor] Running main loop...
+[2025-07-09 19:26:14.704] [INFO] [Management Thread] Starting management loop
+[2025-07-09 19:26:14.704] [INFO] [Output Thread] Starting output loop
+[2025-07-09 19:26:24.711] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:26:34.719] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:26:44.730] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:26:54.739] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:27:04.747] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:27:14.755] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:27:24.764] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:27:34.772] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:27:44.780] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:27:54.788] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:28:04.797] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:28:14.806] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:28:24.816] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:28:34.824] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:28:44.832] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:28:54.840] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:29:04.849] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:29:14.858] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:29:24.867] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:29:34.876] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:29:44.884] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:29:54.893] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:30:04.902] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:30:14.911] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB
+[2025-07-09 19:30:24.919] [INFO] [Status] Active tracks: 0, Processing time: 0.000000 ms, Detection rate: 0.000000 Hz, Total detections: 0, CPU: 0.000000%, Memory: 0.000000 MB

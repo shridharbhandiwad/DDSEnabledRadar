@@ -874,9 +874,8 @@ apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.c
   /workspace/shared/interfaces/include/interfaces/i_filter.hpp \
   /workspace/shared/interfaces/include/interfaces/i_logger.hpp
 
-apps/radar_data_processor: shared/libassociation.a \
-  shared/libclustering.a \
-  shared/libtracking.a \
+apps/radar_data_processor: shared/libconfiguration.a \
+  shared/liblogging.a \
   /lib/x86_64-linux-gnu/Scrt1.o \
   /lib/x86_64-linux-gnu/crti.o \
   /lib/x86_64-linux-gnu/crtn.o \
@@ -893,7 +892,9 @@ apps/radar_data_processor: shared/libassociation.a \
   /usr/lib/gcc/x86_64-linux-gnu/14/libgcc_s.so \
   /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so \
   /usr/lib/x86_64-linux-gnu/libc_nonshared.a \
-  apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/main.cpp.o
+  apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.o \
+  apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/main.cpp.o \
+  apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.o
 
 
 apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/main.cpp.o:
@@ -912,9 +913,7 @@ apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/main.cpp.o:
 
 /lib/x86_64-linux-gnu/libc.so:
 
-shared/libtracking.a:
-
-shared/libclustering.a:
+shared/liblogging.a:
 
 /workspace/shared/logging/include/logging/logger.hpp:
 
@@ -949,8 +948,6 @@ shared/libclustering.a:
 /lib/x86_64-linux-gnu/Scrt1.o:
 
 /usr/include/c++/14/bits/locale_classes.h:
-
-shared/libassociation.a:
 
 /usr/include/c++/14/bits/ios_base.h:
 
@@ -1220,6 +1217,8 @@ shared/libassociation.a:
 
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
 
+apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/tracking_manager.cpp.o:
+
 /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
 
 /usr/include/c++/14/bits/erase_if.h:
@@ -1289,6 +1288,8 @@ shared/libassociation.a:
 /usr/include/c++/14/bits/predefined_ops.h:
 
 /usr/include/c++/14/cstdlib:
+
+apps/CMakeFiles/radar_data_processor.dir/radar_data_processor/data_processor.cpp.o:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
 
@@ -1477,6 +1478,8 @@ shared/libassociation.a:
 /usr/include/signal.h:
 
 /usr/include/c++/14/random:
+
+shared/libconfiguration.a:
 
 /usr/include/c++/14/ostream:
 
