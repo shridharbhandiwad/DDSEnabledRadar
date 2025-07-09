@@ -42,8 +42,10 @@ private:
         common::VectorXd normalized_probs;    // c_j(k-1)
         
         MixingProbabilities(int num_models) {
-            mixing_probs = common::MatrixXd::Zero(num_models, num_models);
-            normalized_probs = common::VectorXd::Zero(num_models);
+            mixing_probs = common::MatrixXd(num_models, num_models);
+            mixing_probs.setZero();
+            normalized_probs = common::VectorXd(num_models);
+            normalized_probs.setZero();
         }
     };
 

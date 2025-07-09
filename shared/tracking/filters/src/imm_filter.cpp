@@ -288,8 +288,11 @@ void IMMFilter::combineEstimates() {
     // Combined state estimate: x̂(k|k) = Σ μ_i(k) * x̂_i(k|k)
     
     // Initialize combined state
-    current_state_.state = common::VectorXd::Zero(model_filters_[0].filter->getCurrentState().state.size());
-    current_state_.covariance = common::MatrixXd::Zero(current_state_.state.size(), current_state_.state.size());
+    int state_size = model_filters_[0].filter->getCurrentState().state.size();
+    current_state_.state = common::VectorXd(state_size);
+    current_state_.state.setZero();
+    current_state_.covariance = common::MatrixXd(state_size, state_size);
+    current_state_.covariance.setZero();
     
     // Calculate weighted average of states
     for (int i = 0; i < num_models_; ++i) {
@@ -340,8 +343,11 @@ common::TrackState IMMFilter::calculateMixedState(int model_index,
     
     // Get reference state size from first model
     auto ref_state = model_filters_[0].filter->getCurrentState();
-    mixed_state.state = common::VectorXd::Zero(ref_state.state.size());
-    mixed_state.covariance = common::MatrixXd::Zero(ref_state.state.size(), ref_state.state.size());
+    int state_size = ref_state.state.size();
+    mixed_state.state = common::VectorXd(state_size);
+    mixed_state.state.setZero();
+    mixed_state.covariance = common::MatrixXd(state_size, state_size);
+    mixed_state.covariance.setZero();
     
     // Calculate mixed state: x̂_0j(k-1|k-1) = Σ ω_ij(k-1) * x̂_i(k-1|k-1)
     for (int i = 0; i < num_models_; ++i) {
@@ -544,7 +550,8 @@ common::VectorXd IMMFilter::calculateOverallInnovation(const common::Detection& 
     }
     
     // Weighted average of innovations
-    auto innovation = common::VectorXd::Zero(3);
+    common::VectorXd innovation(3);
+    innovation.setZero();
     
     for (int i = 0; i < num_models_; ++i) {
         const auto& model = model_filters_[i];
@@ -563,7 +570,8 @@ common::MatrixXd IMMFilter::calculateOverallInnovationCovariance(const common::D
     }
     
     // Weighted average of innovation covariances
-    auto innovation_cov = common::MatrixXd::Zero(3, 3);
+    common::MatrixXd innovation_cov(3, 3);
+    innovation_cov.setZero();
     
     for (int i = 0; i < num_models_; ++i) {
         const auto& model = model_filters_[i];
