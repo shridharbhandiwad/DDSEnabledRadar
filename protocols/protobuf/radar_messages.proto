@@ -1,0 +1,259 @@
+syntax = "proto3";
+
+package radar.messages;
+
+import "google/protobuf/timestamp.proto";
+
+// Basic geometric types
+message Point3D {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+}
+
+message Vector3D {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+}
+
+message Matrix3D {
+    repeated double data = 1; // 9 elements in row-major order
+}
+
+// Coordinate system enumeration
+enum CoordinateSystem {
+    COORDINATE_SYSTEM_UNSPECIFIED = 0;
+    CARTESIAN = 1;
+    POLAR = 2;
+    SPHERICAL = 3;
+    WGS84 = 4;
+}
+
+// Detection type enumeration
+enum DetectionType {
+    DETECTION_TYPE_UNSPECIFIED = 0;
+    POINT_TARGET = 1;
+    EXTENDED_TARGET = 2;
+    CLUTTER = 3;
+    UNKNOWN = 4;
+}
+
+// Motion model enumeration
+enum MotionModel {
+    MOTION_MODEL_UNSPECIFIED = 0;
+    CONSTANT_VELOCITY = 1;
+    CONSTANT_ACCELERATION = 2;
+    COORDINATED_TURN_RATE = 3;
+    SINGER = 4;
+    CUSTOM = 5;
+}
+
+// Track state enumeration
+enum TrackState {
+    TRACK_STATE_UNSPECIFIED = 0;
+    TENTATIVE = 1;
+    CONFIRMED = 2;
+    COASTING = 3;
+    DELETED = 4;
+}
+
+// Single detection message
+message Detection {
+    uint32 id = 1;
+    uint32 sensor_id = 2;
+    google.protobuf.Timestamp timestamp = 3;
+    
+    Point3D position = 4;
+    Matrix3D position_covariance = 5;
+    
+    Vector3D velocity = 6;
+    Matrix3D velocity_covariance = 7;
+    
+    double snr = 8;
+    double amplitude = 9;
+    double doppler = 10;
+    
+    DetectionType type = 11;
+    CoordinateSystem coord_system = 12;
+    
+    map<string, double> attributes = 13;
+}
+
+// Batch of detections
+message DetectionBatch {
+    repeated Detection detections = 1;
+    google.protobuf.Timestamp batch_timestamp = 2;
+    uint32 sensor_id = 3;
+    uint32 sequence_number = 4;
+    
+    // Radar-specific metadata
+    double scan_period = 5;
+    double azimuth_start = 6;
+    double azimuth_end = 7;
+    double elevation_start = 8;
+    double elevation_end = 9;
+    
+    // Processing metadata
+    string processing_mode = 10; // "TWS", "BEAM_REQUEST", etc.
+    double processing_time_ms = 11;
+    uint32 total_detections = 12;
+    uint32 filtered_detections = 13;
+}
+
+// Radar system status
+message RadarStatus {
+    uint32 sensor_id = 1;
+    google.protobuf.Timestamp timestamp = 2;
+    
+    bool is_active = 3;
+    string mode = 4; // "TWS", "BEAM_REQUEST", "MAINTENANCE", etc.
+    
+    double cpu_usage = 5;
+    double memory_usage_mb = 6;
+    double temperature_celsius = 7;
+    
+    // Radar-specific status
+    double transmit_power_watts = 8;
+    double receiver_gain_db = 9;
+    bool antenna_rotating = 10;
+    double current_azimuth = 11;
+    double current_elevation = 12;
+    
+    // Error conditions
+    repeated string errors = 13;
+    repeated string warnings = 14;
+}
+
+// Signal processing configuration
+message SignalProcessingConfig {
+    uint32 sensor_id = 1;
+    
+    // Detection thresholds
+    double detection_threshold_db = 2;
+    double false_alarm_rate = 3;
+    
+    // Processing parameters
+    uint32 range_gates = 4;
+    uint32 doppler_bins = 5;
+    double range_resolution_m = 6;
+    double doppler_resolution_hz = 7;
+    
+    // Filtering parameters
+    bool enable_cfar = 8;
+    uint32 cfar_guard_cells = 9;
+    uint32 cfar_reference_cells = 10;
+    
+    // Output control
+    bool output_raw_detections = 11;
+    bool output_clustered_detections = 12;
+    double max_output_rate_hz = 13;
+}
+
+// Command message for controlling radar operation
+message RadarCommand {
+    uint32 sensor_id = 1;
+    google.protobuf.Timestamp timestamp = 2;
+    uint32 command_id = 3;
+    
+    enum CommandType {
+        COMMAND_TYPE_UNSPECIFIED = 0;
+        START_SCAN = 1;
+        STOP_SCAN = 2;
+        CHANGE_MODE = 3;
+        UPDATE_CONFIG = 4;
+        BEAM_REQUEST = 5;
+        RESET = 6;
+        SHUTDOWN = 7;
+    }
+    
+    CommandType command_type = 4;
+    
+    // Mode-specific parameters
+    string target_mode = 5;
+    
+    // Beam request parameters
+    double beam_azimuth = 6;
+    double beam_elevation = 7;
+    double beam_duration_ms = 8;
+    
+    // Configuration update
+    SignalProcessingConfig config_update = 9;
+    
+    // Additional parameters
+    map<string, string> parameters = 10;
+}
+
+// Response to radar command
+message RadarCommandResponse {
+    uint32 sensor_id = 1;
+    uint32 command_id = 2;
+    google.protobuf.Timestamp timestamp = 3;
+    
+    enum ResponseStatus {
+        RESPONSE_STATUS_UNSPECIFIED = 0;
+        SUCCESS = 1;
+        FAILURE = 2;
+        PARTIAL_SUCCESS = 3;
+        IN_PROGRESS = 4;
+    }
+    
+    ResponseStatus status = 4;
+    string message = 5;
+    
+    // Execution details
+    double execution_time_ms = 6;
+    map<string, string> result_data = 7;
+}
+
+// Performance metrics
+message PerformanceMetrics {
+    google.protobuf.Timestamp timestamp = 1;
+    uint32 sensor_id = 2;
+    
+    double processing_time_ms = 3;
+    double detection_rate = 4;
+    double false_alarm_rate = 5;
+    uint32 active_tracks = 6;
+    uint32 total_detections = 7;
+    double cpu_usage = 8;
+    double memory_usage_mb = 9;
+    
+    // Latency measurements
+    double input_latency_ms = 10;
+    double processing_latency_ms = 11;
+    double output_latency_ms = 12;
+    double total_latency_ms = 13;
+}
+
+// System health message
+message SystemHealth {
+    google.protobuf.Timestamp timestamp = 1;
+    
+    enum HealthStatus {
+        HEALTH_STATUS_UNSPECIFIED = 0;
+        HEALTHY = 1;
+        WARNING = 2;
+        ERROR = 3;
+        CRITICAL = 4;
+    }
+    
+    HealthStatus overall_status = 2;
+    
+    // Component health
+    map<string, HealthStatus> component_health = 3;
+    
+    // Resource usage
+    double cpu_usage_percent = 4;
+    double memory_usage_percent = 5;
+    double disk_usage_percent = 6;
+    double network_usage_mbps = 7;
+    
+    // Error counts
+    uint32 error_count_last_hour = 8;
+    uint32 warning_count_last_hour = 9;
+    
+    // Recent errors and warnings
+    repeated string recent_errors = 10;
+    repeated string recent_warnings = 11;
+}
