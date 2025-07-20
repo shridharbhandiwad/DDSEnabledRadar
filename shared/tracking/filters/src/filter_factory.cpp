@@ -1,7 +1,8 @@
 #include "filters/filter_factory.hpp"
 #include "filters/kalman_filter.hpp"
-// #include "filters/imm_filter.hpp"     // TODO: Implement
-// #include "filters/particle_filter.hpp" // TODO: Implement
+#include "filters/imm_filter.hpp"
+#include "filters/particle_filter.hpp"
+#include "filters/ctr_filter.hpp"
 
 namespace radar {
 namespace tracking {
@@ -20,6 +21,18 @@ std::unique_ptr<interfaces::IFilter> FilterFactory::create(
             filter = std::make_unique<KalmanFilter>();
             break;
             
+        case common::FilterType::CTR:
+            filter = std::make_unique<CTRFilter>();
+            break;
+            
+        case common::FilterType::IMM:
+            filter = std::make_unique<IMMFilter>();
+            break;
+            
+        case common::FilterType::PARTICLE:
+            filter = std::make_unique<ParticleFilter>();
+            break;
+            
         case common::FilterType::EXTENDED_KALMAN:
             // TODO: Implement Extended Kalman Filter
             throw std::runtime_error("Extended Kalman Filter not yet implemented");
@@ -27,14 +40,6 @@ std::unique_ptr<interfaces::IFilter> FilterFactory::create(
         case common::FilterType::UNSCENTED_KALMAN:
             // TODO: Implement Unscented Kalman Filter
             throw std::runtime_error("Unscented Kalman Filter not yet implemented");
-            
-        case common::FilterType::IMM:
-            // TODO: Implement IMM Filter
-            throw std::runtime_error("IMM Filter not yet implemented");
-            
-        case common::FilterType::PARTICLE:
-            // TODO: Implement Particle Filter
-            throw std::runtime_error("Particle Filter not yet implemented");
             
         case common::FilterType::CUSTOM:
             // Custom filters would be loaded via plugin system
@@ -56,8 +61,10 @@ std::unique_ptr<interfaces::IFilter> FilterFactory::create(
 
 std::vector<common::FilterType> FilterFactory::getSupportedFilters() const {
     return {
-        common::FilterType::KALMAN
-        // Add more filters as they are implemented
+        common::FilterType::KALMAN,
+        common::FilterType::CTR,
+        common::FilterType::IMM,
+        common::FilterType::PARTICLE
     };
 }
 
