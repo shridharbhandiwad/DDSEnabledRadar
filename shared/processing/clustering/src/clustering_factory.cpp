@@ -1,6 +1,7 @@
 #include "clustering/clustering_factory.hpp"
 #include "clustering/dbscan.hpp"
 #include "clustering/kmeans.hpp"
+#include "clustering/hierarchical_clustering.hpp"
 
 namespace radar {
 namespace processing {
@@ -24,8 +25,8 @@ std::unique_ptr<interfaces::IClustering> ClusteringFactory::create(
             break;
             
         case common::ClusteringAlgorithm::HIERARCHICAL:
-            // TODO: Implement hierarchical clustering
-            throw std::runtime_error("Hierarchical clustering not yet implemented");
+            clustering_algorithm = std::make_unique<HierarchicalClustering>();
+            break;
             
         case common::ClusteringAlgorithm::CUSTOM:
             // Custom algorithms would be loaded via plugin system
@@ -48,8 +49,8 @@ std::unique_ptr<interfaces::IClustering> ClusteringFactory::create(
 std::vector<common::ClusteringAlgorithm> ClusteringFactory::getSupportedAlgorithms() const {
     return {
         common::ClusteringAlgorithm::DBSCAN,
-        common::ClusteringAlgorithm::KMEANS
-        // Add more algorithms as they are implemented
+        common::ClusteringAlgorithm::KMEANS,
+        common::ClusteringAlgorithm::HIERARCHICAL
     };
 }
 

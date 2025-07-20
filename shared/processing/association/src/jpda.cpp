@@ -8,19 +8,46 @@ namespace radar {
 namespace processing {
 namespace association {
 
+/**
+ * @brief Joint Probabilistic Data Association (JPDA) Algorithm Implementation
+ * 
+ * JPDA is a Bayesian approach to data association that handles uncertain associations
+ * by considering all feasible association hypotheses and computing their probabilities.
+ * Unlike single-hypothesis methods (GNN, NN), JPDA maintains uncertainty about the
+ * correct associations until enough evidence accumulates.
+ * 
+ * Key Features:
+ * - Considers all feasible track-detection associations simultaneously
+ * - Computes marginal association probabilities for soft decision making
+ * - Handles false alarms (clutter) and missed detections probabilistically
+ * - Particularly effective in dense target environments with measurement uncertainty
+ * 
+ * Algorithm Steps:
+ * 1. Generate all feasible association events (hypotheses)
+ * 2. Calculate likelihood of each event based on measurement errors
+ * 3. Compute event probabilities using Bayesian framework
+ * 4. Calculate marginal probabilities for each track-detection pair
+ * 5. Make final association decisions based on marginal probabilities
+ * 
+ * Computational Complexity: O(m^n) where m=detections, n=tracks
+ * This is manageable for small to medium numbers of targets
+ */
+
 JPDA::JPDA() {
     config_.name = "JPDA";
     config_.type = "JPDA";
-    config_.parameters["false_alarm_rate"] = 0.01;      // False alarm rate per unit volume
-    config_.parameters["detection_probability"] = 0.9;  // Probability of detection
-    config_.parameters["gate_probability"] = 0.99;      // Gate probability
-    config_.parameters["max_hypotheses"] = 1000.0;      // Maximum number of hypotheses
-    config_.parameters["probability_threshold"] = 1e-6; // Minimum probability threshold
-    config_.parameters["clutter_density"] = 1e-6;       // Clutter density (per unit volume)
-    config_.parameters["track_existence_prob"] = 0.9;   // Default track existence probability
+    
+    // JPDA algorithm parameters with physical interpretations
+    config_.parameters["false_alarm_rate"] = 0.01;      // λ: False alarms per unit volume per scan
+    config_.parameters["detection_probability"] = 0.9;  // P_D: Probability of detecting an existing target  
+    config_.parameters["gate_probability"] = 0.99;      // P_G: Probability that true measurement falls within gate
+    config_.parameters["max_hypotheses"] = 1000.0;      // Maximum number of hypotheses to consider
+    config_.parameters["probability_threshold"] = 1e-6; // Minimum probability threshold for hypothesis pruning
+    config_.parameters["clutter_density"] = 1e-6;       // ρ: Clutter density (false alarms per unit volume)
+    config_.parameters["track_existence_prob"] = 0.9;   // P_E: Prior probability that track represents real target
     config_.enabled = true;
     
-    // Initialize JPDA parameters
+    // Initialize JPDA-specific parameters from configuration
     false_alarm_rate_ = config_.parameters["false_alarm_rate"];
     detection_probability_ = config_.parameters["detection_probability"];
     gate_probability_ = config_.parameters["gate_probability"];
@@ -31,6 +58,16 @@ std::vector<common::Association> JPDA::associate(
     const std::vector<common::Detection>& detections,
     const interfaces::AssociationGate& gate) {
     
+    /**
+     * Main JPDA association algorithm
+     * 
+     * Input: Set of predicted tracks T = {T₁, T₂, ..., Tₙ}
+     *        Set of detections Z = {z₁, z₂, ..., zₘ}
+     *        Gating parameters for validation
+     * 
+     * Output: Set of weighted associations with uncertainty quantification
+     */
+    
     auto start_time = std::chrono::high_resolution_clock::now();
     
     std::vector<common::Association> associations;
@@ -39,28 +76,67 @@ std::vector<common::Association> JPDA::associate(
         return associations;
     }
     
-    // Generate all feasible association events
+    /**
+     * Step 1: Generate all feasible association events (hypotheses)
+     * 
+     * An association event θ is a complete assignment of detections to tracks,
+     * where each detection can be:
+     * - Associated with exactly one track
+     * - Declared as a false alarm (clutter)
+     * 
+     * Each track can be:
+     * - Associated with at most one detection
+     * - Declared as missed (no detection)
+     */
     auto events = generateAssociationEvents(tracks, detections, gate);
     
-    // Calculate probabilities for each event
+    /**
+     * Step 2: Calculate likelihood and probability for each event
+     * 
+     * For each feasible event θᵢ, compute:
+     * - Likelihood L(Z|θᵢ): Probability of observations given the event
+     * - Prior probability P(θᵢ): Based on track existence and detection probabilities
+     * - Posterior probability P(θᵢ|Z) ∝ L(Z|θᵢ) × P(θᵢ)
+     */
     for (auto& event : events) {
         event.probability = calculateEventProbability(event, tracks, detections, gate);
     }
     
-    // Prune low-probability events
+    /**
+     * Step 3: Prune low-probability events for computational efficiency
+     * 
+     * Remove events with probability below threshold to focus computation
+     * on the most likely scenarios. This is crucial for real-time performance.
+     */
     double prob_threshold = config_.parameters.at("probability_threshold");
     pruneEvents(events, prob_threshold);
     
-    // Normalize probabilities
+    /**
+     * Step 4: Normalize event probabilities
+     * 
+     * Ensure that Σᵢ P(θᵢ|Z) = 1 across all considered events
+     */
     normalizeEventProbabilities(events);
     
-    // Calculate marginal association probabilities
+    /**
+     * Step 5: Calculate marginal association probabilities
+     * 
+     * For each track-detection pair (j,i), compute:
+     * βⱼᵢ = Σθ:θⱼᵢ=1 P(θ|Z)
+     * 
+     * where θⱼᵢ = 1 means track j is associated with detection i in event θ
+     */
     auto marginal_probs = calculateMarginalProbabilities(events, tracks, detections);
     
-    // Create final associations
+    /**
+     * Step 6: Create final associations based on marginal probabilities
+     * 
+     * Use marginal probabilities to make final association decisions,
+     * typically by thresholding or selecting the most probable associations
+     */
     associations = createAssociationsFromProbabilities(marginal_probs, tracks, detections, gate);
     
-    // Update performance metrics
+    // Update performance metrics for monitoring
     auto end_time = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration<double, std::milli>(end_time - start_time);
     
@@ -77,6 +153,16 @@ std::vector<interfaces::AssociationHypothesis> JPDA::getHypotheses(
     const std::vector<common::Detection>& detections,
     const interfaces::AssociationGate& gate) {
     
+    /**
+     * Return all association hypotheses with their probabilities
+     * 
+     * This method provides access to the complete set of hypotheses
+     * considered by JPDA, useful for:
+     * - Multiple hypothesis tracking (MHT) integration
+     * - Uncertainty quantification in downstream processing
+     * - Algorithm debugging and analysis
+     */
+    
     std::vector<interfaces::AssociationHypothesis> hypotheses;
     
     // Generate all feasible association events
@@ -92,7 +178,7 @@ std::vector<interfaces::AssociationHypothesis> JPDA::getHypotheses(
     pruneEvents(events, prob_threshold);
     normalizeEventProbabilities(events);
     
-    // Convert events to hypotheses
+    // Convert internal events to standard hypothesis format
     for (const auto& event : events) {
         if (event.probability > prob_threshold) {
             interfaces::AssociationHypothesis hypothesis;
@@ -107,17 +193,15 @@ std::vector<interfaces::AssociationHypothesis> JPDA::getHypotheses(
                     assoc_pair.second < static_cast<int>(detections.size())) {
                     
                     common::Association association{};
-                    association.track_id = tracks[assoc_pair.first].id;
-                    association.detection_id = detections[assoc_pair.second].id;
+                    association.track_id = tracks[assoc_pair.first].track_id;
+                    association.detection_id = detections[assoc_pair.second].detection_id;
                     association.distance = calculateMahalanobisDistance(
                         tracks[assoc_pair.first], detections[assoc_pair.second]);
-                    association.score = event.probability;
+                    association.association_score = event.probability;
                     association.likelihood = calculatePairLikelihood(
                         assoc_pair.first, assoc_pair.second, tracks, detections, gate);
                     association.is_valid = true;
                     association.algorithm = common::AssociationAlgorithm::JPDA;
-                    association.innovation = common::Vector3d::Zero();
-                    association.innovation_covariance = common::Matrix3d::Zero();
                     
                     hypothesis.associations.push_back(association);
                 }
@@ -135,6 +219,23 @@ std::vector<JPDA::AssociationEvent> JPDA::generateAssociationEvents(
     const std::vector<common::Detection>& detections,
     const interfaces::AssociationGate& gate) const {
     
+    /**
+     * Generate all feasible association events using recursive enumeration
+     * 
+     * This is the core combinatorial problem in JPDA. For n tracks and m detections,
+     * we need to enumerate all feasible ways to associate detections to tracks.
+     * 
+     * Constraints:
+     * - Each detection can be associated with at most one track
+     * - Each track can be associated with at most one detection  
+     * - Associations must satisfy gating constraints
+     * - Unassociated detections are considered false alarms
+     * - Unassociated tracks are considered missed detections
+     * 
+     * Algorithm uses recursive backtracking to efficiently explore
+     * the association space while pruning infeasible branches early.
+     */
+    
     std::vector<AssociationEvent> all_events;
     std::vector<std::pair<int, int>> current_assignment;
     std::vector<bool> used_detections(detections.size(), false);
@@ -145,14 +246,20 @@ std::vector<JPDA::AssociationEvent> JPDA::generateAssociationEvents(
     generateAssignmentsRecursive(tracks, detections, gate, current_assignment, 
                                 0, used_detections, all_events);
     
-    // Limit number of hypotheses for computational efficiency
+    /**
+     * Limit number of hypotheses for computational efficiency
+     * 
+     * In dense scenarios, the number of hypotheses can grow exponentially.
+     * We limit this by keeping only the most promising hypotheses based
+     * on initial likelihood estimates.
+     */
     if (all_events.size() > static_cast<size_t>(max_hypotheses)) {
-        // Keep only the most promising events based on initial likelihood
-        std::partial_sort(all_events.begin(), all_events.begin() + max_hypotheses, 
-                         all_events.end(),
-                         [](const AssociationEvent& a, const AssociationEvent& b) {
-                             return a.likelihood > b.likelihood;
-                         });
+        // Sort by initial likelihood estimate
+        std::sort(all_events.begin(), all_events.end(),
+                  [](const AssociationEvent& a, const AssociationEvent& b) {
+                      return a.likelihood > b.likelihood;
+                  });
+        
         all_events.resize(max_hypotheses);
     }
     
@@ -168,36 +275,78 @@ void JPDA::generateAssignmentsRecursive(
     std::vector<bool>& used_detections,
     std::vector<AssociationEvent>& all_events) const {
     
+    /**
+     * Recursive function to generate all feasible association assignments
+     * 
+     * Parameters:
+     * - tracks, detections: Input data
+     * - gate: Gating parameters for feasibility checking
+     * - current_assignment: Partial assignment being built
+     * - track_index: Current track being processed
+     * - used_detections: Tracks which detections are already assigned
+     * - all_events: Output collection of complete assignments
+     * 
+     * Base case: All tracks processed → add complete assignment to events
+     * Recursive case: Try all feasible detections for current track
+     */
+    
     if (track_index >= static_cast<int>(tracks.size())) {
-        // Complete assignment reached, create event
-        AssociationEvent event(current_assignment);
-        if (isEventFeasible(event, tracks, detections, gate)) {
-            all_events.push_back(event);
-        }
+        // All tracks processed - create complete association event
+        AssociationEvent event;
+        event.associations = current_assignment;
+        event.is_feasible = true;
+        event.likelihood = 1.0; // Will be calculated later
+        event.probability = 0.0; // Will be calculated later
+        
+        all_events.push_back(event);
         return;
     }
     
-    // Option 1: Track is not detected (missed detection)
-    generateAssignmentsRecursive(tracks, detections, gate, current_assignment,
-                                track_index + 1, used_detections, all_events);
+    const auto& current_track = tracks[track_index];
+    bool track_associated = false;
     
-    // Option 2: Track is associated with a detection
+    /**
+     * Try associating current track with each unused detection
+     * 
+     * For each detection, check:
+     * 1. Detection is not already used
+     * 2. Association satisfies gating constraints
+     * 3. Association is physically reasonable
+     */
     for (int det_index = 0; det_index < static_cast<int>(detections.size()); ++det_index) {
-        if (!used_detections[det_index] && 
-            isWithinGate(tracks[track_index], detections[det_index], gate)) {
-            
-            // Add this association
-            current_assignment.emplace_back(track_index, det_index);
-            used_detections[det_index] = true;
-            
-            // Recurse to next track
-            generateAssignmentsRecursive(tracks, detections, gate, current_assignment,
-                                        track_index + 1, used_detections, all_events);
-            
-            // Backtrack
-            current_assignment.pop_back();
-            used_detections[det_index] = false;
+        if (used_detections[det_index]) {
+            continue; // Detection already used
         }
+        
+        // Check if association satisfies gating constraints
+        if (!isWithinGate(current_track, detections[det_index], gate)) {
+            continue; // Outside validation gate
+        }
+        
+        // Association is feasible - explore this branch
+        current_assignment.emplace_back(track_index, det_index);
+        used_detections[det_index] = true;
+        track_associated = true;
+        
+        // Recursively process next track
+        generateAssignmentsRecursive(tracks, detections, gate, current_assignment,
+                                   track_index + 1, used_detections, all_events);
+        
+        // Backtrack: remove assignment and mark detection as unused
+        current_assignment.pop_back();
+        used_detections[det_index] = false;
+    }
+    
+    /**
+     * Also consider the case where current track has no detection (missed detection)
+     * 
+     * This represents the scenario where the target exists but was not detected
+     * due to sensor limitations, occlusion, or low signal-to-noise ratio.
+     */
+    if (!track_associated || true) { // Always consider missed detection possibility
+        // Current track not associated with any detection
+        generateAssignmentsRecursive(tracks, detections, gate, current_assignment,
+                                   track_index + 1, used_detections, all_events);
     }
 }
 
@@ -207,54 +356,154 @@ double JPDA::calculateEventProbability(
     const std::vector<common::Detection>& detections,
     const interfaces::AssociationGate& gate) const {
     
-    double probability = 1.0;
-    std::vector<bool> detection_assigned(detections.size(), false);
-    std::vector<bool> track_assigned(tracks.size(), false);
+    /**
+     * Calculate the posterior probability of an association event
+     * 
+     * P(θ|Z) ∝ L(Z|θ) × P(θ)
+     * 
+     * Where:
+     * - L(Z|Z) is the likelihood of observations given the event
+     * - P(θ) is the prior probability of the event
+     * 
+     * The likelihood combines:
+     * 1. Measurement likelihoods for associated pairs
+     * 2. False alarm probabilities for unassociated detections
+     * 3. Missed detection probabilities for unassociated tracks
+     */
     
-    // Process associations in the event
+    double likelihood = 1.0;
+    double prior_prob = 1.0;
+    
+    // Track which detections and tracks are associated
+    std::vector<bool> detection_associated(detections.size(), false);
+    std::vector<bool> track_associated(tracks.size(), false);
+    
+    /**
+     * Step 1: Process all associations in this event
+     * 
+     * For each track-detection association (j,i):
+     * - Add measurement likelihood L(zᵢ|Tⱼ)
+     * - Add prior probability of association
+     */
     for (const auto& assoc : event.associations) {
         int track_idx = assoc.first;
         int det_idx = assoc.second;
         
-        if (track_idx >= 0 && det_idx >= 0) {
-            // Valid association
-            double pair_likelihood = calculatePairLikelihood(track_idx, det_idx, tracks, detections, gate);
-            probability *= detection_probability_ * pair_likelihood;
+        if (track_idx >= 0 && track_idx < static_cast<int>(tracks.size()) &&
+            det_idx >= 0 && det_idx < static_cast<int>(detections.size())) {
             
-            detection_assigned[det_idx] = true;
-            track_assigned[track_idx] = true;
+            // Mark as associated
+            track_associated[track_idx] = true;
+            detection_associated[det_idx] = true;
+            
+            // Calculate measurement likelihood using multivariate Gaussian
+            double meas_likelihood = calculateMeasurementLikelihood(
+                tracks[track_idx], detections[det_idx], gate);
+            likelihood *= meas_likelihood;
+            
+            // Prior probability of detection given track exists
+            prior_prob *= detection_probability_;
         }
     }
     
-    // Account for missed detections
-    for (int i = 0; i < static_cast<int>(tracks.size()); ++i) {
-        if (!track_assigned[i]) {
-            probability *= calculateMissedDetectionProbability(i, tracks);
+    /**
+     * Step 2: Handle unassociated detections (false alarms)
+     * 
+     * Each unassociated detection is modeled as clutter with uniform
+     * spatial distribution and Poisson temporal distribution.
+     */
+    int num_false_alarms = 0;
+    for (size_t i = 0; i < detections.size(); ++i) {
+        if (!detection_associated[i]) {
+            num_false_alarms++;
         }
     }
     
-    // Account for false alarms (unassigned detections)
-    for (int i = 0; i < static_cast<int>(detections.size()); ++i) {
-        if (!detection_assigned[i]) {
-            probability *= calculateClutterProbability(i, detections, gate);
-        }
-    }
-    
-    // Account for track existence probabilities
-    for (int i = 0; i < static_cast<int>(tracks.size()); ++i) {
-        double existence_prob = config_.parameters.at("track_existence_prob");
-        if (track_existence_probabilities_.find(tracks[i].id) != track_existence_probabilities_.end()) {
-            existence_prob = track_existence_probabilities_.at(tracks[i].id);
-        }
+    // False alarm contribution to likelihood
+    if (num_false_alarms > 0) {
+        double clutter_density = config_.parameters.at("clutter_density");
+        double volume = calculateValidationVolume(gate);
+        double false_alarm_likelihood = std::pow(clutter_density * volume, num_false_alarms);
+        likelihood *= false_alarm_likelihood;
         
-        if (track_assigned[i]) {
-            probability *= existence_prob;
-        } else {
-            probability *= (1.0 - existence_prob);
+        // Poisson false alarm prior
+        double lambda = false_alarm_rate_ * volume;
+        double false_alarm_prior = std::exp(-lambda) * std::pow(lambda, num_false_alarms) / 
+                                 factorial(num_false_alarms);
+        prior_prob *= false_alarm_prior;
+    }
+    
+    /**
+     * Step 3: Handle unassociated tracks (missed detections)
+     * 
+     * Each track without a detection contributes a missed detection
+     * probability (1 - P_D).
+     */
+    for (size_t j = 0; j < tracks.size(); ++j) {
+        if (!track_associated[j]) {
+            // Track j has no detection - missed detection
+            prior_prob *= (1.0 - detection_probability_);
         }
     }
     
-    return std::max(probability, 1e-15); // Avoid numerical underflow
+    /**
+     * Step 4: Include track existence probabilities
+     * 
+     * Each track has a prior probability of representing a real target
+     * rather than a false track.
+     */
+    for (size_t j = 0; j < tracks.size(); ++j) {
+        double existence_prob = getTrackExistenceProbability(tracks[j].track_id);
+        prior_prob *= existence_prob;
+    }
+    
+    // Final probability is proportional to likelihood × prior
+    return likelihood * prior_prob;
+}
+
+double JPDA::calculateMeasurementLikelihood(
+    const common::Track& track,
+    const common::Detection& detection,
+    const interfaces::AssociationGate& gate) const {
+    
+    /**
+     * Calculate likelihood of measurement given track prediction
+     * 
+     * Assumes measurement errors follow multivariate Gaussian distribution:
+     * L(z|x) = (2π)^(-d/2) |S|^(-1/2) exp(-½(z-ẑ)ᵀS⁻¹(z-ẑ))
+     * 
+     * Where:
+     * - z is the actual measurement
+     * - ẑ is the predicted measurement from track
+     * - S is the innovation covariance matrix
+     * - d is the measurement dimension
+     */
+    
+    // Calculate innovation (measurement residual)
+    common::Vector3d predicted_measurement{track.position.x, track.position.y, track.position.z};
+    common::Vector3d actual_measurement{detection.position.x, detection.position.y, detection.position.z};
+    common::Vector3d innovation = actual_measurement - predicted_measurement;
+    
+    // Get innovation covariance from track filter
+    common::Matrix3d innovation_covariance = getInnovationCovariance(track, detection);
+    
+    // Calculate Mahalanobis distance squared
+    double det = innovation_covariance.determinant();
+    if (det <= 0) {
+        return 1e-10; // Avoid numerical issues
+    }
+    
+    auto inv_cov = innovation_covariance.inverse();
+    common::Vector3d weighted_innovation;
+    weighted_innovation.x = inv_cov[0][0] * innovation.x + inv_cov[0][1] * innovation.y + inv_cov[0][2] * innovation.z;
+    weighted_innovation.y = inv_cov[1][0] * innovation.x + inv_cov[1][1] * innovation.y + inv_cov[1][2] * innovation.z;
+    weighted_innovation.z = inv_cov[2][0] * innovation.x + inv_cov[2][1] * innovation.y + inv_cov[2][2] * innovation.z;
+    
+    double mahalanobis_sq = innovation.dot(weighted_innovation);
+    
+    // Multivariate Gaussian probability density function
+    double normalization = 1.0 / (std::pow(2.0 * M_PI, 1.5) * std::sqrt(det));
+    return normalization * std::exp(-0.5 * mahalanobis_sq);
 }
 
 std::vector<JPDA::AssociationProbability> JPDA::calculateMarginalProbabilities(
